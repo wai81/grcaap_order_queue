@@ -21,5 +21,5 @@ class LineOrder(LineOrderBase):
     id: UUID4
     organization_id: int
 
-    class Config:
-        orm_mode = True
+    class ConfigDict:
+        from_attributes = True

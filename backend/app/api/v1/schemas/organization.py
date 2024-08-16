@@ -21,5 +21,5 @@ class Organization(OrganizationBase):
     is_active: bool
     created_at: datetime
 
-    class Config:
-        orm_mode = True
+    class ConfigDict:
+        from_attributes = True

@@ -23,11 +23,11 @@ class Settings(BaseSettings):
     host: str = os.getenv("DB_HOST")
     port: str = os.getenv("DB_PORT")
 
-    BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = [
-        "http://localhost:3000",
-        "http://localhost:4200",
-        "http://localhost:8001"  # type: ignore
-     ]
+    # BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = [
+    #     "http://localhost:3000",
+    #     "http://localhost:4200",
+    #     "http://localhost:8001"  # type: ignore
+    #  ]
     # class Config:
     #     env_prefix = "DB_"
     #     env_file = "../../../.env"
