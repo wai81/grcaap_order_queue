@@ -3,7 +3,9 @@ from pathlib import Path
 from typing import List
 from dotenv import load_dotenv
 
-from pydantic.v1 import BaseSettings, AnyHttpUrl
+
+from pydantic.v1 import AnyHttpUrl
+from pydantic_settings import BaseSettings
 
 env_path = Path('') / '.env'
 load_dotenv(dotenv_path=env_path)
