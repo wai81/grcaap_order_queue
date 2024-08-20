@@ -17,7 +17,7 @@ class LineOrderUpdate(LineOrderBase):
     pass
 
 
-class LineOrder(LineOrderBase):
+class LineOrderInDB(LineOrderBase):
     id: UUID4
     organization_id: int
 

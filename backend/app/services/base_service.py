@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.base_class import Base
 from pydantic import BaseModel
-from sqlalchemy.sql import select
+from sqlalchemy import select
 from sqlalchemy import column, or_, text, desc
 
 ModelType = TypeVar("ModelType", bound=Base)
@@ -14,7 +14,7 @@ CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
 UpdateSchemaType = TypeVar("UpdateSchemaType", bound=BaseModel)
 
 
-class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
+class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     def __init__(self, model: Type[ModelType]):
         """
         CRUD object with default methods to Create, Read, Update, Delete (CRUD).
@@ -38,7 +38,8 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             order: str = None,
             filter: str = None,
     ) -> List[ModelType]:
-        query = select(from_obj=self.model, columns='*')
+        # query = select(from_obj=self.model, columns='*')
+        query = select(self.model)
         # if columns is not None and columns != "all":
         #     query = select(from_obj=self.model, columns=self.convert_columns(columns))
         if filter is not None and filter != '{}' and filter != "null":
@@ -68,7 +69,8 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         result = await db.execute(query)
         return (
             # db.query(self.model).order_by(self.model.id).offset(skip).limit(limit).all()
-            result.fetchall()
+            # result.fetchall()
+            result.scalars().all()
         )
 
     async def create(self, db: AsyncSession, *, request: CreateSchemaType) -> ModelType:

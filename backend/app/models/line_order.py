@@ -36,7 +36,8 @@ class LineOrder(Base):
                              )  # номер ТОР будем искать в какой организации принят заказ/договор *обязателен для заполнения
     organization = relationship('Organization',
                                 back_populates='line_organizations',
-                                lazy="immediate")  # связи таблици
+                                lazy="immediate"
+                                )  # связи таблици
     is_completed = Column(Boolean,
                           default=False,
                           comment='Заказ выполнен')

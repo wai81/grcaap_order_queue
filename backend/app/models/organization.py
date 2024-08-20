@@ -20,7 +20,7 @@ class Organization(Base):
     is_active = Column(Boolean,
                        default=True,
                        comment='Статус')  # признак что данная организация актуальная
-    line_organizations = relationship('LineOrder',
-                                      # cascade='all,delete-orphan',
-                                      back_populates='organization',
-                                      uselist=True, )
+    # line_organizations = relationship('LineOrder',
+    #                                   back_populates='organization',
+    #                                   # uselist=True,
+    #                                   )

@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -17,9 +18,9 @@ class OrganizationUpdate(OrganizationBase):
     is_active: bool
 
 
-class Organization(OrganizationBase):
+class OrganizationInDB(OrganizationBase):
     is_active: bool
-    created_at: datetime
+    created_at: Optional[datetime]
 
     class ConfigDict:
         from_attributes = True
