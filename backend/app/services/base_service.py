@@ -2,15 +2,12 @@ import json
 from typing import TypeVar, Generic, Type, Any, Optional, List, Union, Dict
 
 from fastapi.encoders import jsonable_encoder
-from pydantic import BaseModel
-# from sqlalchemy.orm import Session
-from sqlalchemy import column, or_, text, desc
 from sqlalchemy.ext.asyncio import AsyncSession
-# from sqlalchemy.future import select
-from sqlalchemy.sql import select
-from sqlalchemy.sql.operators import from_
 
 from app.core.base_class import Base
+from pydantic import BaseModel
+from sqlalchemy.sql import select
+from sqlalchemy import column, or_, text, desc
 
 ModelType = TypeVar("ModelType", bound=Base)
 CreateSchemaType = TypeVar("CreateSchemaType", bound=BaseModel)
@@ -33,7 +30,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         obj = result.scalars().first()
         return obj
 
-    async def get_all(
+    async def get_list(
             # self, db: Session, *, skip: int = 0, limit: int = 5000
             self, db: AsyncSession, *,
             # columns: str = None,
@@ -41,9 +38,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             order: str = None,
             filter: str = None,
     ) -> List[ModelType]:
-
         query = select(from_obj=self.model, columns='*')
-
         # if columns is not None and columns != "all":
         #     query = select(from_obj=self.model, columns=self.convert_columns(columns))
         if filter is not None and filter != '{}' and filter != "null":
@@ -66,17 +61,13 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
 
         if sort is not None and sort != "null":
             # we need sort format data like this --> ['id','name']
-
             if order is not None and order != "null":
                 if order == '"DESC"':
                     query = query.order_by(desc(text(self.convert_sort(sort))))
             query = query.order_by(text(self.convert_sort(sort)))
-
-        # query = select(self.model)
         result = await db.execute(query)
         return (
             # db.query(self.model).order_by(self.model.id).offset(skip).limit(limit).all()
-            # result.scalars().all() #db.query(self.model).all()
             result.fetchall()
         )
 
@@ -103,14 +94,6 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         await db.refresh(db_obj)
         return db_obj
 
-    # async def remove(self, db: AsyncSession, *, id: Any) -> Any:
-    #     query = select(self.model).where(self.model.id == id)
-    #     result = await db.execute(query)
-    #     obj = result.scalars().first()
-    #     await db.delete(obj)
-    #     await db.commit()
-    #     return {"message": "object delete with success"}
-
     async def remove(self, db: AsyncSession, *, db_obj: ModelType) -> Any:
         # query = select(self.model).where(self.model.id == id)
         # result = await db.execute(query)
@@ -118,25 +101,3 @@ class CRUDBase(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         await db.delete(db_obj)
         await db.commit()
         return {"message": "object delete with success"}
-
-    def convert_sort(self, sort):
-        """
-        # separate string using split('-')
-        split_sort = sort.split('-')
-        # join to list with ','
-        new_sort = ','.join(split_sort)
-        """
-        return ','.join(sort.split('-'))
-
-    def convert_columns(self, columns):
-        """
-        # seperate string using split ('-')
-        new_columns = columns.split('-')
-        # add to list with column format
-        column_list = []
-        for data in new_columns:
-            column_list.append(data)
-        # we use lambda function to make code simple
-        """
-
-        return list(map(lambda x: column(x), columns.split('-')))

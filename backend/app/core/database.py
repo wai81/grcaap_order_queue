@@ -3,13 +3,23 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.future import select
 
-DATABASE_URL = "postgresql+asyncpg://user:password@localhost/dbname"  # Данные к подлючению БД
+from app.core.config import settings
 
-engine = create_async_engine(DATABASE_URL, echo=True)
-SessionLocal = sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
-Base = declarative_base()
+# DATABASE_URL = "postgresql+asyncpg://user:password@localhost/dbname"  # Данные к подлючению БД
 
+DATABASE_URL = f"postgresql+asyncpg://" \
+                          f"{settings.dbusername}:{settings.password}@{settings.host}:{settings.port}" \
+                          f"/{settings.database}"
 
-async def get_db():
-    async with SessionLocal() as session:
-        yield session
+engine = create_async_engine(DATABASE_URL,
+                             echo=True,
+                             future=True)
+SessionLocal = sessionmaker(bind=engine,
+                            class_=AsyncSession,
+                            expire_on_commit=False)
+# Base = declarative_base()
+#
+#
+# async def get_db():
+#     async with SessionLocal() as session:
+#         yield session

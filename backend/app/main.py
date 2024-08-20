@@ -1,4 +1,3 @@
-from typing import Union
 
 from fastapi import FastAPI
 
@@ -17,3 +16,19 @@ def start_app():
 
 
 app = start_app()
+
+
+@app.on_event("startup")
+async def startup_event():
+    print('startup fastapi')
+
+
+@app.on_event("shutdown")
+async def stop_event():
+    print('stop fastapi')
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run("app.main:app", host="127.0.0.1", port=8000, reload=True)
