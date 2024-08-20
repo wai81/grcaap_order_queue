@@ -31,7 +31,7 @@ class LineOrder(Base):
                                     index=True
                                     )  # *обязателен для заполнения
     organization_id = Column(Integer,
-                             ForeignKey('organization.id'),
+                             ForeignKey('organizations.id'),
                              index=True
                              )  # номер ТОР будем искать в какой организации принят заказ/договор *обязателен для заполнения
     organization = relationship('Organization',
