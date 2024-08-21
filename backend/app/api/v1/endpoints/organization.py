@@ -1,6 +1,6 @@
 from typing import List, Any
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app import services
@@ -11,8 +11,28 @@ from app.models.organization import Organization
 router = APIRouter()
 
 
-@router.get("/", response_model=List[OrganizationInDB])
-async def get_organizations(db: AsyncSession = Depends(get_db)) -> Any:
-    objects = await services.organization_service.get_list(db=db)
+@router.get("", status_code=200, response_model=List[OrganizationInDB])
+async def get_organizations(skip: int = Query(0, ge=0), limit: int = Query(50, gt=0),
+                            db: AsyncSession = Depends(get_db)) -> Any:
+    """Получение списка организаций, ТОР"""
+    objects = await services.organization_service.get_list(db=db, skip=skip, limit=limit)
     result = objects
+    return result
+
+
+@router.post("", status_code=201, response_model=OrganizationInDB)
+async def create_organization(*, request: OrganizationCreate,
+                              db: AsyncSession = Depends(get_db)) -> dict:
+    """Создание организации.
+    Проверяем по номеру ТОР
+    (ТОР является ID организации)
+    если организация  в списке,
+    если есть выводим сообщение"""
+    obj = await services.organization_service.get(db=db, id=request.id)
+    if obj:
+        raise HTTPException(
+            status_code=400, detail=f"Organization with number TOR: {request.id} is exist."
+        )
+
+    result = await services.organization_service.create(db=db, request=request)
     return result

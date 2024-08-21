@@ -31,8 +31,9 @@ class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return obj
 
     async def get_list(
-            # self, db: Session, *, skip: int = 0, limit: int = 5000
+            # self, db: Session, *,
             self, db: AsyncSession, *,
+            skip: int = 0, limit: int = 5000,
             # columns: str = None,
             sort: str = None,
             order: str = None,
@@ -66,7 +67,7 @@ class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
                 if order == '"DESC"':
                     query = query.order_by(desc(text(self.convert_sort(sort))))
             query = query.order_by(text(self.convert_sort(sort)))
-        result = await db.execute(query)
+        result = await db.execute(query.offset(skip).limit(limit))
         return (
             # db.query(self.model).order_by(self.model.id).offset(skip).limit(limit).all()
             # result.fetchall()
