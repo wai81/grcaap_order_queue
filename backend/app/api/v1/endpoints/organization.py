@@ -11,7 +11,9 @@ from app.models.organization import Organization
 router = APIRouter()
 
 
-@router.get("", status_code=200, response_model=List[OrganizationInDB])
+@router.get("",
+            status_code=200,
+            response_model=List[OrganizationInDB])
 async def get_organizations(*,
                             skip: int = Query(0, ge=0),
                             limit: int = Query(50, gt=0),
@@ -61,3 +63,19 @@ async def update_organization(*,
         )
     result = await services.organization_service.update(db=db, db_obj=obj, request=request)
     return result
+
+
+@router.delete("/{organization_id}",
+               status_code=204)
+async def delete_organization(*,
+                              organization_id: int,
+                              db: AsyncSession = Depends(get_db)
+                              ):
+    """Удаление организации"""
+    obj = await services.organization_service.get(db=db, id=organization_id)
+    if not obj:
+        raise HTTPException(
+            status_code=404, detail=f"Organization with ID: {organization_id} not found."
+        )
+    await services.organization_service.remove(db=db, db_obj=obj)
+    # return result
