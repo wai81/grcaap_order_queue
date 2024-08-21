@@ -33,7 +33,8 @@ class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     async def get_list(
             # self, db: Session, *,
             self, db: AsyncSession, *,
-            skip: int = 0, limit: int = 5000,
+            skip: int = 0,
+            limit: int = 5000,
             # columns: str = None,
             sort: str = None,
             order: str = None,
