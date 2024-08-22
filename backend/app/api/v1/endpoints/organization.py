@@ -66,16 +66,16 @@ async def update_organization(*,
 
 
 @router.delete("/{organization_id}",
-               status_code=204)
+               status_code=200)
 async def delete_organization(*,
                               organization_id: int,
                               db: AsyncSession = Depends(get_db)
-                              ):
+                              ) -> dict:
     """Удаление организации"""
     obj = await services.organization_service.get(db=db, id=organization_id)
     if not obj:
         raise HTTPException(
             status_code=404, detail=f"Organization with ID: {organization_id} not found."
         )
-    await services.organization_service.remove(db=db, db_obj=obj)
-    # return result
+    result = await services.organization_service.remove(db=db, db_obj=obj)
+    return result

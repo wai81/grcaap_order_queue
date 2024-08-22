@@ -1,10 +1,11 @@
 from datetime import timezone
+from typing import List, Any
 
 from sqlalchemy.ext.asyncio import AsyncSession
-
-from app.api.v1.schemas.line_order import LineOrderCreate, LineOrderUpdate
+from sqlalchemy import select, func
+from app.api.v1.schemas.line_order import LineOrderCreate, LineOrderUpdate, LineOrderInDB, LineOrderResponse, \
+    LineOrderChangeStatus
 from app.models.line_order import LineOrder
-from app.models.organization import Organization
 from app.services.base_service import BaseService
 
 
@@ -19,5 +20,52 @@ class LineOrderService(BaseService[LineOrder, LineOrderCreate, LineOrderUpdate])
         await db.refresh(obj)
         return obj
 
+    async def get_list_by_organization(self,
+                                       db: AsyncSession, *,
+                                       skip: int = 0,
+                                       limit: int = 5000,
+                                       organization_id: int) -> List[LineOrderResponse]:
+        subquery = (
+            select(
+                LineOrder,
+                func.row_number().over(order_by=LineOrder.order_create_date.asc()).label("row_num")
+            ).where(LineOrder.organization_id == organization_id)
+            .where(LineOrder.is_completed == False)
+            .subquery()
+        )
+        query = (
+            select(subquery)
+        )
+        result = await db.execute(query.offset(skip).limit(limit))
+
+        return result.fetchall()
+
+    async def get_line_by_order_number(self,
+                                       db: AsyncSession, *,
+                                       skip: int = 0,
+                                       limit: int = 5000,
+                                       organization_id: int,
+                                       order_number: str) -> List[LineOrderResponse]:
+        subquery = (
+            select(
+                LineOrder,
+                func.row_number().over(order_by=LineOrder.order_create_date.asc()).label("row_num")
+            ).where(LineOrder.organization_id == organization_id)
+            .subquery()
+        )
+
+        query = (
+            select(subquery).where(subquery.c.order_number.ilike(f'{order_number}%'))
+        )
+
+        result = await db.execute(query.offset(skip).limit(limit))  # Execute the query
+        return result.fetchall()
+
+    # async def change_status(self,
+    #                         db: AsyncSession, *,
+    #                         db_obj: LineOrder,
+    #                         request: LineOrderChangeStatus,
+    #                         ):
+    #     pass
 
 line_order_service = LineOrderService(LineOrder)

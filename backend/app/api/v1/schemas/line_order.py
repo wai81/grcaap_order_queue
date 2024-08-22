@@ -1,7 +1,8 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, UUID4
+from pydantic import BaseModel
+from pydantic.types import UUID4
 
 
 class LineOrderBase(BaseModel):
@@ -26,3 +27,21 @@ class LineOrderInDB(LineOrderBase):
 
     class ConfigDict:
         from_attributes = True
+
+
+class LineOrderResponse(BaseModel):
+    id: UUID4
+    order_number: str
+    order_create_date: datetime
+    costumer_contact_phone: str
+    organization_id: int
+    is_completed: bool
+    created_at: datetime
+    row_num: int
+
+    class ConfigDict:
+        from_attributes = True
+
+
+class LineOrderChangeStatus(BaseModel):
+    is_completed: bool
