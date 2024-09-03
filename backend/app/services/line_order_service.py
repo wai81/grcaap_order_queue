@@ -51,6 +51,7 @@ class LineOrderService(BaseService[LineOrder, LineOrderCreate, LineOrderUpdate])
                 LineOrder,
                 func.row_number().over(order_by=LineOrder.order_create_date.asc()).label("row_num")
             ).where(LineOrder.organization_id == organization_id)
+
             .subquery()
         )
 
@@ -61,6 +62,25 @@ class LineOrderService(BaseService[LineOrder, LineOrderCreate, LineOrderUpdate])
         result = await db.execute(query.offset(skip).limit(limit))  # Execute the query
         return result.fetchall()
 
+    async def get_line_by_order_id(self,
+                                       db: AsyncSession, *,
+                                       organization_id: int,
+                                       order_id: str) -> LineOrderResponse:
+        subquery = (
+            select(
+                LineOrder,
+                func.row_number().over(order_by=LineOrder.order_create_date.asc()).label("row_num")
+            ).where(LineOrder.organization_id == organization_id)
+            .where(LineOrder.is_completed == False)
+            .subquery()
+        )
+
+        query = (
+            select(subquery).where(subquery.c.id == order_id)
+        )
+
+        result = await db.execute(query)  # Execute the query
+        return result.fetchone()
     # async def change_status(self,
     #                         db: AsyncSession, *,
     #                         db_obj: LineOrder,

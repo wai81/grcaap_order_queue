@@ -28,7 +28,34 @@ async def get_orders(*,
     return result
 
 
-@router.get("/{organization_id}",
+@router.get("/order/{order_id}",
+            status_code=200,
+            response_model=LineOrderResponse)
+async def get_line_orders_by_order_id(*,
+                                      order_id: UUID,
+                                      db: AsyncSession = Depends(get_db)
+                                      ) -> LineOrderResponse:
+    """Получение номера очереди заказа по id заказа"""
+    obj = await services.line_order_service.get(db=db, id=order_id)
+    if not obj:
+        raise HTTPException(
+            status_code=404, detail=f"Order with ID: {order_id} not found."
+        )
+    if obj.is_completed:
+        raise HTTPException(
+            status_code=200, detail=f"Order with ID: {order_id} is completed."
+        )
+
+    response_order = await services.line_order_service.get_line_by_order_id(
+        db=db,
+        organization_id=obj.organization_id,
+        order_id=order_id
+    )
+
+    return response_order
+
+
+@router.get("/organization/{organization_id}",
             status_code=200,
             response_model=List[LineOrderResponse])
 async def get_line_orders_by_organization(*,
@@ -38,7 +65,7 @@ async def get_line_orders_by_organization(*,
                                           limit: int = Query(50, gt=0),
                                           db: AsyncSession = Depends(get_db)
                                           ) -> List[LineOrderResponse]:
-    """Получение списка заказов Организации"""
+    """Получение списка заказов и номера очереди Организации"""
     obj = await services.organization_service.get(db=db, id=organization_id)
     if not obj:
         raise HTTPException(
