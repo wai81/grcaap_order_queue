@@ -1,6 +1,6 @@
 
 from fastapi import FastAPI
-
+from fastapi.middleware.cors import CORSMiddleware
 from app.api.v1.route import api_router
 from app.core.config import settings
 
@@ -12,6 +12,14 @@ def include_routes(app):  # добавляем список маршрутов
 def start_app():
     app = FastAPI(title=settings.PROJECT_TITLE, version=settings.PROJECT_VERSION)
     include_routes(app)
+    if settings.BACKEND_CORS_ORIGINS:
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=["*"], #[str(origin) for origin in settings.BACKEND_CORS_ORIGINS],
+            allow_credentials=True,
+            allow_methods=["*"],
+            allow_headers=["*"],
+        )
     return app
 
 
