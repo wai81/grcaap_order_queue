@@ -125,9 +125,9 @@ async def update_order(*,
     return result
 
 
-@router.put("/{order_id}/change_status",
-            status_code=201,
-            response_model=LineOrderInDB)
+@router.patch("/{order_id}",
+              status_code=201,
+              response_model=LineOrderInDB)
 async def change_status_order(*,
                               order_id: UUID,
                               request: LineOrderChangeStatus,

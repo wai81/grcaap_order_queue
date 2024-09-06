@@ -15,7 +15,7 @@ class LineOrder(Base):
                 primary_key=True,
                 default=uuid4,
                 index=True)
-    order_number = Column(String(16),
+    order_number = Column(String(21),
                           nullable=False,
                           index=True
                           )  # номер заказа/договор *обязателен для заполнения
@@ -25,7 +25,7 @@ class LineOrder(Base):
                                comment='Дата заказа',
                                index=True
                                )  # *обязателен для заполнения
-    costumer_contact_phone = Column(String(15),
+    costumer_contact_phone = Column(String(18),
                                     nullable=False,
                                     comment='Телефон заказчика',
                                     index=True
