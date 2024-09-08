@@ -1,6 +1,7 @@
 from typing import List, Any
 
 from fastapi import APIRouter, Depends, Query, HTTPException
+from fastapi_pagination import Page
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app import services
@@ -13,14 +14,14 @@ router = APIRouter()
 
 @router.get("",
             status_code=200,
-            response_model=List[OrganizationInDB])
+            response_model=Page[OrganizationInDB])
 async def get_organizations(*,
-                            skip: int = Query(0, ge=0),
-                            limit: int = Query(50, gt=0),
+                            # skip: int = Query(0, ge=0),
+                            # limit: int = Query(50, gt=0),
                             db: AsyncSession = Depends(get_db)
                             ) -> Any:
     """Получение списка организаций, ТОР"""
-    objects = await services.organization_service.get_list(db=db, skip=skip, limit=limit)
+    objects = await services.organization_service.get_list(db=db)
     result = objects
     return result
 

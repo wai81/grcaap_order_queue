@@ -2,6 +2,8 @@ import json
 from typing import TypeVar, Generic, Type, Any, Optional, List, Union, Dict
 
 from fastapi.encoders import jsonable_encoder
+from fastapi_pagination import Page
+from fastapi_pagination.ext.async_sqlalchemy import paginate
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.base_class import Base
@@ -33,13 +35,13 @@ class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
     async def get_list(
             # self, db: Session, *,
             self, db: AsyncSession, *,
-            skip: int = 0,
-            limit: int = 5000,
+            # skip: int = 0,
+            # limit: int = 5000,
             # columns: str = None,
             sort: str = None,
             order: str = None,
             filter: str = None,
-    ) -> List[ModelType]:
+    ) -> Page[ModelType]:
         # query = select(from_obj=self.model, columns='*')
         query = select(self.model)
         # if columns is not None and columns != "all":
@@ -68,11 +70,11 @@ class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
                 if order == '"DESC"':
                     query = query.order_by(desc(text(self.convert_sort(sort))))
             query = query.order_by(text(self.convert_sort(sort)))
-        result = await db.execute(query.offset(skip).limit(limit))
+        result = await paginate(db, query=query)
+        # result = await db.execute(query.offset(skip).limit(limit))
         return (
-            # db.query(self.model).order_by(self.model.id).offset(skip).limit(limit).all()
-            # result.fetchall()
-            result.scalars().all()
+            # result.scalars().all()
+            result
         )
 
     async def create(self, db: AsyncSession, *, request: CreateSchemaType) -> ModelType:

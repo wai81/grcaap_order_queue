@@ -1,6 +1,7 @@
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi_pagination import add_pagination
+
 from app.api.v1.route import api_router
 from app.core.config import settings
 
@@ -15,7 +16,7 @@ def start_app():
     if settings.BACKEND_CORS_ORIGINS:
         app.add_middleware(
             CORSMiddleware,
-            allow_origins=["*"], #[str(origin) for origin in settings.BACKEND_CORS_ORIGINS],
+            allow_origins=["*"],  # [str(origin) for origin in settings.BACKEND_CORS_ORIGINS],
             allow_credentials=True,
             allow_methods=["*"],
             allow_headers=["*"],
@@ -24,6 +25,7 @@ def start_app():
 
 
 app = start_app()
+add_pagination(app)  # added fastapi_pagination
 
 
 @app.on_event("startup")
