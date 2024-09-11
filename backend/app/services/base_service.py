@@ -33,49 +33,46 @@ class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         return obj
 
     async def get_list(
-            # self, db: Session, *,
             self, db: AsyncSession, *,
             # skip: int = 0,
             # limit: int = 5000,
             # columns: str = None,
             sort: str = None,
             order: str = None,
-            filter: str = None,
+            filters: str = None,
     ) -> Page[ModelType]:
         # query = select(from_obj=self.model, columns='*')
         query = select(self.model)
-        # if columns is not None and columns != "all":
-        #     query = select(from_obj=self.model, columns=self.convert_columns(columns))
-        if filter is not None and filter != '{}' and filter != "null":
-            # we need filter format data like this  --> {'name': 'an','country':'an'}
-            # convert string to dict format
-            print(f'filter ' + filter)
-            # criteria = dict(x.split("*") for x in filter.split('-'))
-            criteria = json.loads(filter)
-            criteria_list = []
-            # check every key in dict. are there any table attributes that are the same as the dict key ?
-            for attr, value in criteria.items():
-                if attr != 'q':
-                    _attr = getattr(self.model, attr)
-                    # filter format
-                    search = "%{}%".format(value)
-                    # criteria list
-                    criteria_list.append(_attr.like(search))
-
-            query = query.filter(or_(*criteria_list))
-
-        if sort is not None and sort != "null":
-            # we need sort format data like this --> ['id','name']
-            if order is not None and order != "null":
-                if order == '"DESC"':
-                    query = query.order_by(desc(text(self.convert_sort(sort))))
-            query = query.order_by(text(self.convert_sort(sort)))
+        # # if columns is not None and columns != "all":
+        # #     query = select(from_obj=self.model, columns=self.convert_columns(columns))
+        # if filter is not None and filter != '{}' and filter != "null":
+        #     # we need filter format data like this  --> {'name': 'an','country':'an'}
+        #     # convert string to dict format
+        #     print(f'filter ' + filter)
+        #     # criteria = dict(x.split("*") for x in filter.split('-'))
+        #     criteria = json.loads(filter)
+        #     criteria_list = []
+        #     # check every key in dict. are there any table attributes that are the same as the dict key ?
+        #     for attr, value in criteria.items():
+        #         if attr != 'q':
+        #             _attr = getattr(self.model, attr)
+        #             # filter format
+        #             search = "%{}%".format(value)
+        #             # criteria list
+        #             criteria_list.append(_attr.like(search))
+        #
+        #     query = query.filter(or_(*criteria_list))
+        #
+        # if sort is not None and sort != "null":
+        #     # we need sort format data like this --> ['id','name']
+        #     if order is not None and order != "null":
+        #         if order == '"DESC"':
+        #             query = query.order_by(desc(text(self.convert_sort(sort))))
+        #     query = query.order_by(text(self.convert_sort(sort)))
         result = await paginate(db, query=query)
         # result = await db.execute(query.offset(skip).limit(limit))
-        return (
-            # result.scalars().all()
-            result
-        )
+        return result
+
 
     async def create(self, db: AsyncSession, *, request: CreateSchemaType) -> ModelType:
         obj_in_data = jsonable_encoder(request)

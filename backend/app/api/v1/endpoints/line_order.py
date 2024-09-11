@@ -2,11 +2,13 @@ from typing import List, Any, Optional
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, Query, HTTPException
+from fastapi_filter import FilterDepends
 from fastapi_pagination import Page
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy import func
 from app import services
+from app.api.v1.filters.line_order import OrderFilter
 from app.api.v1.schemas.line_order import LineOrderInDB, LineOrderCreate, LineOrderUpdate, LineOrderResponse, \
     LineOrderChangeStatus
 from app.api.dependencies import get_db
@@ -22,7 +24,7 @@ async def get_orders(*,
                      # skip: int = Query(0, ge=0),
                      # limit: int = Query(50, gt=0),
                      db: AsyncSession = Depends(get_db)
-                     ) -> Any:
+                     ) -> any:
     """Получение списка заказов"""
     objects = await services.line_order_service.get_list(db=db)
     result = objects
@@ -33,11 +35,34 @@ async def get_orders(*,
             status_code=200,
             response_model=LineOrderResponse)
 async def get_line_orders_search(*,
+                                 organization_id: int,
+                                 order_number: str,
                                  db: AsyncSession = Depends(get_db)
-                                 ) -> LineOrderResponse:
+                                 ) -> any:
     # Фильтруем данные находим id заказа проверяем статус заказа.
     # Если статус выполнен выводим сообщение иначе выводим очередь в заказе
-    pass
+
+    response_order = await services.line_order_service.get_order_by_order_number(
+        db=db,
+        # skip=skip,
+        # limit=limit,
+        organization_id=organization_id,
+        order_number=order_number
+    )
+
+    if response_order is None:
+        raise HTTPException(status_code=404, detail="Заказ не найден")
+
+    if response_order.is_completed is True:
+        raise HTTPException(status_code=200, detail="Ваш заказ выполнен")
+
+    result = await services.line_order_service.get_line_by_order_id(
+        db=db,
+        order_id=response_order.id,
+        organization_id=organization_id
+    )
+
+    return result
 
 
 @router.get("/order/{order_id}",
@@ -51,11 +76,11 @@ async def get_line_orders_by_order_id(*,
     obj = await services.line_order_service.get(db=db, id=order_id)
     if not obj:
         raise HTTPException(
-            status_code=404, detail=f"Order with ID: {order_id} not found."
+            status_code=404, detail=f"Заказ с ID: {order_id} не найден."
         )
     if obj.is_completed:
         raise HTTPException(
-            status_code=200, detail=f"Order with ID: {order_id} is completed."
+            status_code=200, detail=f"Ваш заказ выполнен"
         )
 
     response_order = await services.line_order_service.get_line_by_order_id(
@@ -81,7 +106,7 @@ async def get_line_orders_by_organization(*,
     obj = await services.organization_service.get(db=db, id=organization_id)
     if not obj:
         raise HTTPException(
-            status_code=404, detail=f"Organization with ID: {organization_id} not found."
+            status_code=404, detail=f"Организация не найдена."
         )
     # if order_number:
     #     response_orders = await services.line_order_service.get_line_by_order_number(
@@ -94,8 +119,6 @@ async def get_line_orders_by_organization(*,
     # else:
     response_orders = await services.line_order_service.get_list_by_organization(
         db=db,
-        # skip=skip,
-        # limit=limit,
         organization_id=organization_id,
     )
     return response_orders
@@ -109,12 +132,6 @@ async def create_order(*,
                        db: AsyncSession = Depends(get_db)
                        ) -> dict:
     """Создание нового заказа."""
-    # obj = await services.line_order_service.get(db=db, id=request.order_number)
-    # if obj:
-    #     raise HTTPException(
-    #         status_code=400, detail="Order with number : {request.order_number} is exist."
-    #     )
-
     result = await services.line_order_service.create(db=db, request=request)
     return result
 
@@ -131,7 +148,7 @@ async def update_order(*,
     obj = await services.line_order_service.get(db=db, id=order_id)
     if not obj:
         raise HTTPException(
-            status_code=404, detail=f"Order with ID: {order_id} not found."
+            status_code=404, detail=f"Заказ ID: {order_id} не найден."
         )
     result = await services.line_order_service.update(db=db, db_obj=obj, request=request)
     return result
@@ -149,7 +166,7 @@ async def change_status_order(*,
     obj = await services.line_order_service.get(db=db, id=order_id)
     if not obj:
         raise HTTPException(
-            status_code=404, detail=f"Order with ID: {order_id} not found."
+            status_code=404, detail=f"Заказ ID: {order_id} не найден."
         )
     result = await services.line_order_service.update(db=db, db_obj=obj, request=request)
     return result
@@ -165,7 +182,7 @@ async def delete_order(*,
     obj = await services.line_order_service.get(db=db, id=order_id)
     if not obj:
         raise HTTPException(
-            status_code=404, detail=f"Order with ID: {order_id} not found."
+            status_code=404, detail=f"Заказ ID: {order_id} не найден."
         )
     await services.line_order_service.remove(db=db, db_obj=obj)
     # return result
