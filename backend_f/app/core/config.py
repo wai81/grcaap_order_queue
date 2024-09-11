@@ -11,7 +11,7 @@ load_dotenv(dotenv_path=env_path)
 
 
 class Settings(BaseSettings):
-    PROJECT_TITLE: str = "grca_api_line_order&1C"
+    PROJECT_TITLE: str = "grca_api_line_order"
     PROJECT_VERSION: str = "0.0.1"
 
     # подключения к базе
