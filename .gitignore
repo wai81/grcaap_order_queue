@@ -24,3 +24,13 @@ dist-ssr
 *.sw?
 
 /backend_f/.env
+/backend_f/venv
+/backend_f/app/__pycache__
+/backend_f/app/api/__pycache__
+/backend_f/app/api/v1/__pycache__
+/backend_f/app/api/v1/endpoints/__pycache__
+/backend_f/app/api/v1/filters/__pycache__
+/backend_f/app/api/v1/schemas/__pycache__
+/backend_f/app/core/__pycache__
+/backend_f/app/models/__pycache__
+/backend_f/app/services/__pycache__
