@@ -34,3 +34,4 @@ dist-ssr
 /backend_f/app/core/__pycache__
 /backend_f/app/models/__pycache__
 /backend_f/app/services/__pycache__
+backend/alembic/versions/2024_08_21_0034-3bc08c0cd893_initial_tables.py
