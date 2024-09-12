@@ -1,9 +1,9 @@
-from typing import Generator
+from typing import AsyncGenerator
 
 from app.core.database import SessionLocal
 
 
-async def get_db() -> Generator:
+async def get_db() -> AsyncGenerator:
     db = SessionLocal()
     db.current_user_id = None
     try:

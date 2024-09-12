@@ -7,7 +7,7 @@ from app.models.organization import Organization
 
 class OrganizationFilter(Filter):
     q: Optional[str] = None
-    id__in: Optional[List[int]]
+    id__in: Optional[List[int]] = None
 
     class Constants(Filter.Constants):
         model = Organization
