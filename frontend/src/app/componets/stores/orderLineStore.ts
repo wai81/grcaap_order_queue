@@ -1,9 +1,9 @@
 import { makeAutoObservable, runInAction } from "mobx";
 
 import axios from "axios";
-import { LineOrder } from "../../../interface/line_order";
+import { LineOrder } from "../../../interface/lineOrder";
 
-class OrderLineStore {
+export default class OrderLineStore {
   orderLine: LineOrder | undefined;
   searchLoading: boolean = false;  
   searchError: string | null = null; 
@@ -32,4 +32,3 @@ class OrderLineStore {
       }  
   }
 }
-export const orderLineStore = new OrderLineStore();  

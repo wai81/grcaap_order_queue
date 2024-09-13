@@ -2,7 +2,7 @@ import { makeAutoObservable, runInAction } from "mobx";
 import { Organization } from "../../../interface/organization";
 import axios from "axios";
 
-class OrganizationStore {
+export default class OrganizationStore {
   organizations: Organization[] = [];
   loading: boolean = false;
   error: string | null = null;
@@ -28,4 +28,3 @@ class OrganizationStore {
       }  
   }
 }
-export const organizationStore = new OrganizationStore();  
