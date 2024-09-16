@@ -1,4 +1,5 @@
 import * as React from "react";
+import {Col, Row} from "react-bootstrap";
 
 interface HeaderProps {
     title: string;
@@ -7,9 +8,12 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({title}) => {
 
     return (
-        <div className={"title_header"}>
-            <h1>{title}</h1>
-        </div>
+        <Row>
+            <Col>
+                <h1 className="align-items-center">{title}</h1>
+            </Col>
+
+        </Row>
     )
 }
 export default Header;

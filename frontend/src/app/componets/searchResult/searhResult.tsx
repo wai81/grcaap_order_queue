@@ -1,6 +1,8 @@
 import {OrderLine} from "../../../interface/orderLine";
 import React from "react";
-import "./styles.css"
+import {Alert, Card, Spinner} from "react-bootstrap";
+
+//import "./styles.css"
 
 interface SearchResultsProps {
     loading: boolean;
@@ -12,8 +14,13 @@ interface SearchResultsProps {
 
 const SearchResults: React.FC<SearchResultsProps> = ({loading, error, orderLine}) => {
     return (
-        <div className="searchResult">
-            {loading && <div>Поиск...</div>}
+        <div>
+            {loading &&
+                <Spinner className={"m-5"} animation="border" role="status">
+                    <span className="visually-hidden m-5">Поиск...</span>
+                </Spinner>
+                // <div>Поиск...</div>
+            }
 
             {error && (
                 <div>
@@ -23,16 +30,17 @@ const SearchResults: React.FC<SearchResultsProps> = ({loading, error, orderLine}
             )}
 
             {orderLine ? (
-                <div>
-                    <h3 className="text-lg font-bold">Результаты поиска:</h3>
-                    <ul>
-                        <li key={orderLine.id}>
-                            Заказ № {orderLine.order_number} - Ваша очередь: {orderLine.row_num}
-                        </li>
-                    </ul>
-                </div>
+                <Alert key={orderLine.id} variant={"success"}>
+                    <Alert.Heading>
+                        Результаты поиска:
+                    </Alert.Heading>
+                    <div className={"p-3 mb-5 mt-5"}>
+                        Заказ № {orderLine.order_number} - Ваша очередь: {orderLine.row_num}
+                    </div>
+
+                </Alert>
             ) : (
-                !loading && !error && <div>Результатов не найдено.</div>
+                !loading && !error && <div></div>
             )}
         </div>
     )
