@@ -8,6 +8,7 @@ from app.models.organization import Organization
 class OrganizationFilter(Filter):
     q: Optional[str] = None
     id__in: Optional[List[int]] = None
+    order_by: Optional[list[str]] = ['id']
 
     class Constants(Filter.Constants):
         model = Organization

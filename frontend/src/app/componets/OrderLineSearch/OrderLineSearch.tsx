@@ -2,7 +2,8 @@ import {observer} from "mobx-react-lite";
 import React, {useEffect, useState} from "react";
 import {Simulate} from "react-dom/test-utils";
 import input = Simulate.input;
-import {useStore} from "../stores/store";
+import {useStore} from "../../stores/store";
+import "./styles.css"
 
 //const OrderLineSearch: React.FC = observer(() => {
 const OrderLineSearch: React.FC = observer(() => {

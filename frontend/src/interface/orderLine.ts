@@ -1,4 +1,4 @@
-export interface LineOrder {
+export interface OrderLine {
     id: string
     order_number: string
     order_create_date: string
