@@ -13,6 +13,12 @@ export default class OrderLineStore {
     makeAutoObservable(this);
   }
 
+  clearSearchResult() {
+    this.orderLine = undefined;
+    this.searchLoading = false;
+    this.searchError = null;
+  }
+
   async searchRecord( orderNumber: string, organizationId: number) {
     this.searchLoading  = true;
     this.searchError = null;
