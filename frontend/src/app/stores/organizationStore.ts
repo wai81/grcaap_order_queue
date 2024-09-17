@@ -3,6 +3,7 @@ import { Organization } from "../../interface/organization";
 import axios from "axios";
 import agent from "../../api/agent";
 import {PagingParams} from "../../interface/pagination";
+import {API_URL} from "../layout/App";
 
 export default class OrganizationStore {
   organizations: Organization[] = [];
@@ -37,8 +38,8 @@ export default class OrganizationStore {
     this.loading = true;
     this.error = null;
     try {  
-        const response = await axios.get<Organization[]>('http://localhost:8001/organizations');
-        runInAction(() => {  
+        const response = await axios.get<Organization[]>(`${API_URL}/organizations`);
+        runInAction(() => {
           this.organizations = response.data.items;
           this.loading = false;  
         });  
