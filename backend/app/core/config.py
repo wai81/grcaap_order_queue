@@ -29,7 +29,7 @@ class Settings(BaseSettings):
      ]
     # class Config:
     #     env_prefix = "DB_"
-    #     env_file = "../../../.env"
+    #     env_file = "../../../..env"
 
 
 settings = Settings()
