@@ -4,7 +4,7 @@ import "./styles.css"
 
 const Footer: React.FC = () => {
     return (
-        <div className={"footer"}>
+        <footer className={"footer"}>
             <Container fluid>
                 <Row>
                     <Col className="footer-branch" xs={6} sm={4} md={2}>
@@ -91,7 +91,7 @@ const Footer: React.FC = () => {
                     </p>
                 </div>
 
-        </div>
+        </footer>
 
 )
 }

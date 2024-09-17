@@ -8,15 +8,17 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({title}) => {
 
     return (
-        <Row>
-            <Col md={2}>
-                <img src="/assets/Logo_with_Text.png" alt="logo" width={"95%"} className="m-2"/>
-            </Col>
-            <Col>
-                <h2 className="text-left text-secondary m-2"><b>{title}</b></h2>
-            </Col>
-            <Col md={2}></Col>
-        </Row>
+        <header className="text-left text-secondary py-3">
+            <Row>
+                <Col md={2}>
+                    <img src="/assets/Logo_with_Text.png" alt="logo" width={"95%"} className="m-3"/>
+                </Col>
+                <Col md={7}>
+                    <h2><b>{title}</b></h2>
+                </Col>
+                <Col md={3}></Col>
+            </Row>
+        </header>
     )
 }
 export default Header;
