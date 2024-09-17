@@ -1,14 +1,12 @@
 import React from "react";
 import {Alert, Spinner} from "react-bootstrap";
-
+import {OrderLine} from "../../../interface/orderLine"
 
 
 interface SearchResultsProps {
     loading: boolean;
     error: string | null;
-    orderLine: {
-        OrderLine
-    } | undefined;
+    orderLine: OrderLine | undefined;
 }
 
 const SearchResults: React.FC<SearchResultsProps> = ({loading, error, orderLine}) => {

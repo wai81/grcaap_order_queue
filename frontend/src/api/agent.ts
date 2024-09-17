@@ -28,13 +28,13 @@ const Organizations = {
     details: (id: number) => requests.get<Organization>(`/organizations/${id}`),
 }
 
-const OrderLine = {
+const OrderLines = {
     search: (order_number: string, organization_id: number) => requests.get<OrderLine>(`line_orders/search?organization_id=${organization_id}order_number=${order_number}`)
 }
 
 const agent = {
     Organizations,
-    OrderLine,
+    OrderLines,
 }
 
 export default agent

@@ -123,7 +123,7 @@ const OrderLineSearch: React.FC = observer(() => {
                 <Col xs={12} md={4} className="p-2">
                     <SearchResults
                         loading={orderLineStore.searchLoading}
-                        error={orderLineStore.searchError}
+                        error={orderLineStore.error}
                         orderLine={orderLineStore.orderLine}
                     />
                 </Col>

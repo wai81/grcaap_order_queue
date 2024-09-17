@@ -1,7 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
-import { Organization } from "../../interface/organization";
+import {Organization, OrganizationList} from "../../interface/organization";
 import axios from "axios";
-import agent from "../../api/agent";
+//import agent from "../../api/agent";
 import {PagingParams} from "../../interface/pagination";
 import {API_URL} from "../layout/App";
 
@@ -38,7 +38,7 @@ export default class OrganizationStore {
     this.loading = true;
     this.error = null;
     try {  
-        const response = await axios.get<Organization[]>(`${API_URL}/organizations`);
+        const response = await axios.get<OrganizationList>(`${API_URL}/organizations`);
         runInAction(() => {  
           this.organizations = response.data.items;  
           this.loading = false;  
@@ -51,18 +51,18 @@ export default class OrganizationStore {
       }  
   }
 
-  getOrganizations = async () =>{
-    this.loading = true
-    try {
-      const response = await agent.Organizations.list(this.axiosParams);
-      runInAction(() => {
-        console.log(response)
-        this.organizations = response.data;
-        this.loading = false;
-      });
-
-    }catch (error) {
-
-    }
-  }
+  // getOrganizations = async () =>{
+  //   this.loading = true
+  //   try {
+  //     const response = await agent.Organizations.list(this.axiosParams);
+  //     runInAction(() => {
+  //       console.log(response)
+  //       this.organizations = response.data;
+  //       this.loading = false;
+  //     });
+  //
+  //   }catch (error) {
+  //
+  //   }
+  //}
 }

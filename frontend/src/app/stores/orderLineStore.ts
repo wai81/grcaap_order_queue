@@ -6,7 +6,7 @@ import {API_URL} from "../layout/App";
 export default class OrderLineStore {
   orderLine: OrderLine | undefined;
   searchLoading: boolean = false;  
-  searchError: string | null = null; 
+  error: string | null = null; 
   
 
   constructor() {
@@ -16,23 +16,24 @@ export default class OrderLineStore {
   clearSearchResult() {
     this.orderLine = undefined;
     this.searchLoading = false;
-    this.searchError = null;
+    this.error = null;
   }
 
   async searchRecord( orderNumber: string, organizationId: number) {
     this.searchLoading  = true;
-    this.searchError = null;
+    this.error = null;
     try {  
         const response = await axios.get<OrderLine>(`${API_URL}/line_orders/search?organization_id=${organizationId}&order_number=${orderNumber}`);
         runInAction(() => {  
           this.orderLine = response.data;  
           this.searchLoading = false;  
         });  
-      } catch (searchError) {  
+      } catch (error) {  
         runInAction(() => {
           //console.log(searchError.response.data.detail)  
           // this.searchError = 'Failed to fetch orderLine';  
-          this.searchError = searchError.response.data.detail;
+          //this.error = error.response.data.detail;
+          this.error = 'Заказ не найден';
           this.searchLoading = false;  
         });  
       }  
