@@ -41,6 +41,7 @@ export default class OrganizationStore {
         const response = await axios.get<OrganizationList>(`${API_URL}/organizations`);
         runInAction(() => {  
           this.organizations = response.data.items;  
+
           this.loading = false;  
         });  
       } catch (error) {  
