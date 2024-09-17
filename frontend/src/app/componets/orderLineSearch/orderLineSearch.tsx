@@ -5,7 +5,7 @@ import input = Simulate.input;
 import {useStore} from "../../stores/store";
 //import "./styles.css"
 import SearchResults from "../searchResult/searhResult";
-import {Button, Card, CardFooter, Col, Form, InputGroup, Row, Stack} from "react-bootstrap";
+import {Button, Card, Col, Form, Row, Stack} from "react-bootstrap";
 
 const OrderLineSearch: React.FC = observer(() => {
     const {organizationStore, orderLineStore} = useStore();
@@ -15,18 +15,18 @@ const OrderLineSearch: React.FC = observer(() => {
     useEffect(() => {
         organizationStore.fetchOrganizations();
     }, []);
-
-    function useInputValue(defaultValue = ' ') {
-        const [value, setValue] = useState(defaultValue)
-        return {
-            bind: {
-                value,
-                onChange: event => setValue(event.target.value)
-            },
-            clear: () => setValue(''),
-            value: () => value
-        }
-    }
+    //
+    // function useInputValue(defaultValue = ' ') {
+    //     const [value, setValue] = useState(defaultValue)
+    //     return {
+    //         bind: {
+    //             value,
+    //             onChange: event => setValue(event.target.value)
+    //         },
+    //         clear: () => setValue(''),
+    //         value: () => value
+    //     }
+    // }
 
     const handleSearch = () => {
         orderLineStore.clearSearchResult();
@@ -39,7 +39,7 @@ const OrderLineSearch: React.FC = observer(() => {
 
 
     return (
-      <div className="p-4">
+      <div className="p-4 mt-4">
         <Row>
           <Col xs={0} md={1}></Col>
           <Col xs={12} md={6} className="p-2">
@@ -48,11 +48,7 @@ const OrderLineSearch: React.FC = observer(() => {
               {/*    <h4 className="text-xl font-bold ">Состояние очереди по техинической инвентаризации:</h4>*/}
               {/*</Card.Header>*/}
               <Card.Body>
-                {/* <Card.Img
-                  variant="left"
-                  src="/assets/employment-contract-300x184.jpg"
-                />
-                <Card.ImgOverlay> */}
+
                   <Card.Title>
                     <h4 className="text-xl font-bold ">
                     Здесь вы можете проверить свою очередь заказа
@@ -61,8 +57,8 @@ const OrderLineSearch: React.FC = observer(() => {
                   <Card.Text>
                     Для получения информации по заказу заполните поля формы.
                     <ul>
-                        <li>Выберите организацию где подавался заказ</li>
-                        <li>Укажите  номер заказа указанный в расписке или договоре</li>
+                        <li>Выберите "Организацию" где подавался заказ</li>
+                        <li>Укажите "Номер заказа" указанный в расписке или договоре</li>
                         <li>Нажмите "Поиск"</li>
                     </ul>
                   </Card.Text>
@@ -99,7 +95,7 @@ const OrderLineSearch: React.FC = observer(() => {
                         type="text"
                         value={orderNumber}
                         onChange={(e) => setOrderNumber(e.target.value)}
-                        placeholder={"Введите Номер Заказа/Договора"}
+                        placeholder={"Введите Номер Заказа"}
                         className="w-full p-2 border border-gray-300 rounded-md"
                         {...input.bind}
                         required
@@ -114,7 +110,7 @@ const OrderLineSearch: React.FC = observer(() => {
                       {/*</div>*/}
                     </Stack>
                   </div>
-                {/* </Card.ImgOverlay> */}
+
               </Card.Body>
             </Card>
           </Col>
