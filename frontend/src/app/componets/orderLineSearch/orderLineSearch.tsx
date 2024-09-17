@@ -1,11 +1,15 @@
 import {observer} from "mobx-react-lite";
-import React, {useEffect, useState} from "react";
+import * as React from "react";
+
 import {Simulate} from "react-dom/test-utils";
 import input = Simulate.input;
 import {useStore} from "../../stores/store";
 //import "./styles.css"
 import SearchResults from "../searchResult/searhResult";
 import {Button, Card, Col, Form, Row, Stack} from "react-bootstrap";
+import {useEffect, useState} from "react";
+
+
 
 const OrderLineSearch: React.FC = observer(() => {
     const {organizationStore, orderLineStore} = useStore();

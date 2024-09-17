@@ -1,7 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
-
 import axios from "axios";
 import { OrderLine } from "../../interface/orderLine";
+import {API_URL} from "../layout/App";
 
 export default class OrderLineStore {
   orderLine: OrderLine | undefined;
@@ -23,7 +23,7 @@ export default class OrderLineStore {
     this.searchLoading  = true;
     this.searchError = null;
     try {  
-        const response = await axios.get<OrderLine>(`http://localhost:8001/line_orders/search?organization_id=${organizationId}&order_number=${orderNumber}`);
+        const response = await axios.get<OrderLine>(`${API_URL}/line_orders/search?organization_id=${organizationId}&order_number=${orderNumber}`);
         runInAction(() => {  
           this.orderLine = response.data;  
           this.searchLoading = false;  

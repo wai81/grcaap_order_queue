@@ -5,8 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Container} from "react-bootstrap";
 import Footer from "./Footer";
 
+export const API_URL = import.meta.env.VITE_APP_API_URL
+
 function App() {
-    console.log(import.meta.env.REACT_APP_API_URL);
+
     return (
         <div className={"d-flex flex-column min-vh-100"}>
             <Header title={'РУП "Гродненское агентство по государственной регистрации и земельному кадастру"'}/>

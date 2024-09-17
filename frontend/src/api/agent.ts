@@ -1,17 +1,17 @@
 import axios, {AxiosResponse} from "axios";
-import {PaginatedResult} from "../interface/pagination";
+// import {PaginatedResult} from "../interface/pagination";
 import {Organization} from "../interface/organization";
 import {OrderLine} from "../interface/orderLine";
 
-const sleep = (delay: number) => {
-    return new Promise((resolve) => {
-        setTimeout(resolve, delay)
-    })
-}
 
-//axios.defaults.baseURL = process.env.REACT_APP_API_URL;// 'http://localhost:5000/api/';
+// const sleep = (delay: number) => {
+//     return new Promise((resolve) => {
+//         setTimeout(resolve, delay)
+//     })
+// }
 
-axios.defaults.baseURL = 'http://localhost:8001/';
+axios.defaults.baseURL = import.meta.env.VITE_APP_API_URL;// 'http://localhost:5000/api/';
+
 
 
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
@@ -24,7 +24,7 @@ const requests = {
 }
 
 const Organizations = {
-    list: (params: URLSearchParams) => axios.get<PaginatedResult<Organization[]>>('/organizations'),
+    //list: (params: URLSearchParams) => axios.get<PaginatedResult<Organization[]>>('/organizations'),
     details: (id: number) => requests.get<Organization>(`/organizations/${id}`),
 }
 
