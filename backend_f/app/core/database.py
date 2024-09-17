@@ -11,6 +11,7 @@ DATABASE_URL = f"postgresql+asyncpg://" \
                           f"{settings.dbusername}:{settings.password}@{settings.host}:{settings.port}" \
                           f"/{settings.database}"
 
+print(DATABASE_URL)
 engine = create_async_engine(DATABASE_URL,
                              echo=True,
                              future=True)

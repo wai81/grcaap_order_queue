@@ -1,0 +1,54 @@
+version: '3.8'
+services:
+  fasting-app-1c:
+    container_name: fasting-backand-1c
+    build:
+      context: backend
+      dockerfile: Dockerfile
+#    volumes:
+#      - /home/gr-admin1/grcaap_order_queue/backend:/app
+    ports:
+      - "8989:8000"
+    environment:
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - CORS=${CORS}
+
+    restart: always
+
+    #networks:
+    #  - default
+
+  fasting-app-backand_f:
+    container_name: fasting-backand-f
+    build:
+      context: backend_f
+      dockerfile: Dockerfile
+#    volumes:
+#      - /home/gr-admin1/grcaap_order_queue/backend_f:/app
+    environment:
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      CORS: ${CORS}
+
+    ports:
+      - "7979:8000"
+    restart: always
+
+#    networks:
+#      - default
+
+#volumes:
+#  backend: {}
+#  backend_f: {}
+
+#networks:
+#  default:
+#    external: true
+#    name: nginx_docker
