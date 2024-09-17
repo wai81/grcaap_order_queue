@@ -16,12 +16,9 @@ services:
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
       - CORS=${CORS}
-
     restart: always
-
     #networks:
     #  - default
-
   fasting-app-backand_f:
     container_name: fasting-backand-f
     build:
@@ -36,13 +33,26 @@ services:
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
       CORS: ${CORS}
-
     ports:
       - "7979:8000"
     restart: always
-
 #    networks:
 #      - default
+  frontend:
+    container_name: frontend-app
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    #    volumes:
+    #      - /home/gr-admin1/grcaap_order_queue/frontend:/app
+    ports:
+      - 3000:3000
+
+    restart: always
+
+    #networks:
+    #  - default
+    #  - frontend_nginx_docker
 
 #volumes:
 #  backend: {}
@@ -52,3 +62,6 @@ services:
 #  default:
 #    external: true
 #    name: nginx_docker
+#  frontend:
+#    external: true
+#    name: frontend_nginx_docker

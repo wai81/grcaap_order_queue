@@ -37,9 +37,9 @@ export default class OrganizationStore {
     this.loading = true;
     this.error = null;
     try {  
-        const response = await axios.get<Organization[]>('http://localhost:8001/organizations');  
+        const response = await axios.get<Organization[]>('http://localhost:8001/organizations');
         runInAction(() => {  
-          this.organizations = response.data.items;  
+          this.organizations = response.data.items;
           this.loading = false;  
         });  
       } catch (error) {  
