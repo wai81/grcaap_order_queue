@@ -8,7 +8,8 @@ services:
 #    volumes:
 #      - /home/gr-admin1/grcaap_order_queue/backend:/app
     ports:
-      - "8989:8000"
+#      - "8989:8000"
+      - "8000"
     environment:
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
@@ -34,7 +35,8 @@ services:
       DB_PORT: ${DB_PORT}
       CORS: ${CORS}
     ports:
-      - "7979:8000"
+#      - "7979:8000"
+      - "8000"
     restart: always
 #    networks:
 #      - default
