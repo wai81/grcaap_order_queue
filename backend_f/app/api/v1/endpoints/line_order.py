@@ -16,6 +16,7 @@ from app.models.line_order import LineOrder
 
 router = APIRouter()
 
+
 @router.get("/search",
             status_code=200,
             response_model=LineOrderResponse)
@@ -35,8 +36,19 @@ async def get_line_orders_search(*,
         raise HTTPException(status_code=404, detail="Заказ не найден")
 
     if response_order.is_completed is True:
-        raise HTTPException(status_code=200, detail="Ваш заказ выполнен")
+        result = LineOrderResponse(
+            id=response_order.id,
+            order_number=response_order.order_number,
+            order_create_date=response_order.order_create_date,
+            costumer_contact_phone=response_order.costumer_contact_phone,
+            organization_id=response_order.organization_id,
+            is_completed=response_order.is_completed,
+            created_at=response_order.created_at,
+            row_num=0
 
+        )
+        return result
+        
     result = await services.line_order_service.get_line_by_order_id(
         db=db,
         order_id=response_order.id,
@@ -44,4 +56,3 @@ async def get_line_orders_search(*,
     )
 
     return result
-

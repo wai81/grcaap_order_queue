@@ -43,7 +43,12 @@ const SearchResults: React.FC<SearchResultsProps> = ({loading, error, orderLine}
                     <Alert.Heading>Результаты поиска:</Alert.Heading>
                     <div className={"p-2 mb-5 mt-5"}>
                         <h2 className="text-center">Заказ № {orderLine.order_number}</h2>
-                        <h2 className="text-center">в очереди: {orderLine.row_num}</h2>
+                        { orderLine.is_completed === true ? (
+                            <h2 className="text-center">Выполнен</h2>
+                        ):(
+                            <h2 className="text-center">В очереди: {orderLine.row_num}</h2>
+                        )}
+                        
                     </div>
                 </Alert>
             ) : (
