@@ -48,7 +48,7 @@ async def get_line_orders_search(*,
 
         )
         return result
-        
+
     result = await services.line_order_service.get_line_by_order_id(
         db=db,
         order_id=response_order.id,
