@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
         <footer className={"footer"}>
             <Container fluid>
                 <Row>
-                    <Col className="footer-branch" xs={6} sm={4} md={2}>
+                    <Col className="footer-branch" xs={6} sm={4} md={3} lg={2}>
 
 
                         <h4 className="branch-title">
@@ -19,7 +19,7 @@ const Footer: React.FC = () => {
                         <div><span>Факс: </span> (0152) 62 21 34</div>
                         <div><span>Email: </span><a href="mailto:d400@nca.by">d400@nca.by</a></div>
                     </Col>
-                    <Col className="footer-branch" xs={6} sm={4} md={2}>
+                    <Col className="footer-branch" xs={6} sm={4} md={3} lg={2}>
 
 
                         <h4 className="branch-title">
@@ -31,7 +31,7 @@ const Footer: React.FC = () => {
                         <div><span>Факс: </span> (01512) 2 36 08</div>
                         <div><span>Email: </span><a href="mailto:d410@nca.by">d410@nca.by</a></div>
                     </Col>
-                    <Col className="footer-branch" xs={6} sm={4} md={2}>
+                    <Col className="footer-branch" xs={6} sm={4} md={3} lg={2}>
 
 
                         <h4 className="branch-title">
@@ -43,7 +43,7 @@ const Footer: React.FC = () => {
                         <div><span>Факс: </span> (0154) 52 58 55</div>
                         <div><span>Email: </span><a href="mailto:d420@nca.by">d420@nca.by</a></div>
                     </Col>
-                    <Col className="footer-branch" xs={6} sm={4} md={2}>
+                    <Col className="footer-branch" xs={6} sm={4} md={3} lg={2}>
 
 
                         <h4 className="branch-title" >
@@ -55,7 +55,7 @@ const Footer: React.FC = () => {
                         <div><span>Факс: </span> (01597) 3 50 02</div>
                         <div><span>Email: </span> <a href="mailto:d430@nca.by">d430@nca.by</a></div>
                     </Col>
-                    <Col className="footer-branch" xs={6} sm={4} md={2}>
+                    <Col className="footer-branch" xs={6} sm={4} md={3} lg={2}>
 
 
                         <h4 className="branch-title">
@@ -67,7 +67,7 @@ const Footer: React.FC = () => {
                         <div><span>Факс: </span> (01593) 2 23 81</div>
                         <div><span>Email: </span> <a href="mailto:d440@nca.by">d440@nca.by</a></div>
                     </Col>
-                    <Col className="footer-branch" xs={6} sm={4} md={2} >
+                    <Col className="footer-branch" xs={6} sm={4} md={3} lg={2}>
 
 
                         <h4 className="branch-title">

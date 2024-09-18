@@ -1,7 +1,7 @@
 import React from "react";
-import {Alert, Spinner} from "react-bootstrap";
-import {OrderLine} from "../../../interface/orderLine"
-
+import { Alert, Spinner } from "react-bootstrap";
+import { OrderLine } from "../../../interface/orderLine"
+import './styles.css'
 
 interface SearchResultsProps {
     loading: boolean;
@@ -9,16 +9,16 @@ interface SearchResultsProps {
     orderLine: OrderLine | undefined;
 }
 
-const SearchResults: React.FC<SearchResultsProps> = ({loading, error, orderLine}) => {
+const SearchResults: React.FC<SearchResultsProps> = ({ loading, error, orderLine }) => {
     return (
-        <div >
+        < >
             {
                 loading && (
-                        <div className={"text-center p-5 m-5 "} >
+                    <div className={"text-center p-5 m-5 "} >
                         <Spinner animation="border" role="status" >
                             <span className="visually-hidden">Поиск...</span>
                         </Spinner>
-                        </div>
+                    </div>
 
                 )
                 // <div>Поиск...</div>
@@ -43,13 +43,18 @@ const SearchResults: React.FC<SearchResultsProps> = ({loading, error, orderLine}
                     <Alert.Heading>Результаты поиска:</Alert.Heading>
                     <div className={"p-2 mb-5 mt-5"}>
                         <h2 className="text-center">Заказ № {orderLine.order_number}</h2>
-                        <h2 className="text-center">в очереди: {orderLine.row_num}</h2>
+                        {orderLine.is_completed === true ? (
+                            <h2 className="text-center">Выполнен</h2>
+                        ) : (
+                            <h2 className="text-center">В очереди: {orderLine.row_num}</h2>
+                        )}
+
                     </div>
                 </Alert>
             ) : (
                 !loading && !error && <div></div>
             )}
-        </div>
+        </>
     );
 }
 
