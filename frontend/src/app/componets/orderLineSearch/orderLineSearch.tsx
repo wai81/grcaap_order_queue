@@ -36,14 +36,13 @@ const OrderLineSearch: React.FC = observer(() => {
             <Row>
                 <Col xs={0} md={1}></Col>
                 <Col xs={12} md={6} className="p-2">
-                    <Card className={"bg-secondary border-secondary text-white"}>
+                    <Card className={"shadow"}>
                         <Card.Body>
                             <Card.Title>
                                 <h4 className="text-xl font-bold ">
                                     Здесь вы можете проверить свою очередь заказа
                                 </h4>
                             </Card.Title>
-
                             <div>
                                 <p>Для получения информации по заказу заполните поля формы.</p>
                                 <ul>
@@ -52,9 +51,7 @@ const OrderLineSearch: React.FC = observer(() => {
                                     <li key={'3'}>Нажмите "Поиск"</li>
                                 </ul>
                             </div>
-
                             <div className={"p-0"}>
-
                                 <div className="mb-2">
                                     <InputGroup hasValidation>
                                         <Form.Select
@@ -80,8 +77,6 @@ const OrderLineSearch: React.FC = observer(() => {
 
                                     </InputGroup>
                                 </div>
-
-
                                 <Stack direction="horizontal" gap={2} style={{ alignItems: "start" }}>
                                     <InputGroup hasValidation>
                                         <Form.Control
@@ -100,14 +95,11 @@ const OrderLineSearch: React.FC = observer(() => {
                                             </Form.Control.Feedback>
                                         )}
                                     </InputGroup>
-                                    <Button variant="dark" className="" onClick={handleSearch} style={{ height: '42px' }}>
+                                    <Button variant={'dark'} onClick={handleSearch} >
                                         Поиск
                                     </Button>
-                                    {/*</div>*/}
                                 </Stack>
-
                             </div>
-
                         </Card.Body>
                     </Card>
                 </Col>
