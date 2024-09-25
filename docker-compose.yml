@@ -1,7 +1,7 @@
 version: '3.8'
 services:
-  fasting-app-1c:
-    container_name: fasting-backand-1c
+  handler-1c:
+    container_name:  handler-1c-app
     build:
       context: backend
       dockerfile: Dockerfile
@@ -20,8 +20,8 @@ services:
     restart: always
     #networks:
     #  - default
-  fasting-app-backand_f:
-    container_name: fasting-backand-f
+  backend:
+    container_name: backend-app
     build:
       context: backend_f
       dockerfile: Dockerfile
@@ -35,8 +35,8 @@ services:
       DB_PORT: ${DB_PORT}
       CORS: ${CORS}
     ports:
-#      - "7979:8000"
-      - "8000"
+      - "7979:8000"
+#      - "8000"
     restart: always
 #    networks:
 #      - default
