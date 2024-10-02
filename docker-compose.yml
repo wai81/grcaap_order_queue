@@ -1,45 +1,76 @@
 version: '3.8'
 services:
-  handler-1c:
-    container_name:  handler-1c-app
+  handler_1c:
+    container_name:  handler_1c-app
+    build:
+      context: handler_1c
+      dockerfile: Dockerfile
+#    volumes:
+#      - /home/gr-admin1/grcaap_order_queue/handler1c:/app
+    ports:
+#      - "8989:8000"
+      - "8000"
+    environment:
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_HOST: db_line_order #${DB_HOST}
+      DB_PORT: '5432' #${DB_PORT}
+      CORS: ${CORS}
+    restart: always
+    depends_on:
+      - db_line_order
+    #networks:
+    #  - default
+
+  backend:
+    container_name: backend-app
     build:
       context: backend
       dockerfile: Dockerfile
 #    volumes:
 #      - /home/gr-admin1/grcaap_order_queue/backend:/app
-    ports:
-#      - "8989:8000"
-      - "8000"
-    environment:
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_DATABASE=${DB_DATABASE}
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=${DB_PORT}
-      - CORS=${CORS}
-    restart: always
-    #networks:
-    #  - default
-  backend:
-    container_name: backend-app
-    build:
-      context: backend_f
-      dockerfile: Dockerfile
-#    volumes:
-#      - /home/gr-admin1/grcaap_order_queue/backend_f:/app
     environment:
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
       DB_DATABASE: ${DB_DATABASE}
-      DB_HOST: ${DB_HOST}
-      DB_PORT: ${DB_PORT}
+      DB_HOST: db_line_order #${DB_HOST}
+      DB_PORT: '5432' #${DB_PORT}
       CORS: ${CORS}
     ports:
       - "7979:8000"
 #      - "8000"
+    depends_on:
+      - db_line_order
     restart: always
 #    networks:
 #      - default
+  
+  db_line_order:
+    image: postgres:15.2
+    restart: always
+    ports:
+      - "${DB_PORT}:5432"
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+      TZ: "Europe/Minsk"
+      PTZ: "Europe/Minsk"
+    # volumes:
+    #     - postgres_data:/var/lib/postgresql/data:cached
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
+    ports:
+      - "5050:80"
+    # volumes:
+    #   - pgadmin_data:/var/lib/pgadmin
+
   frontend:
     container_name: frontend-app
     build:

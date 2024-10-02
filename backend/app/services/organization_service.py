@@ -17,7 +17,7 @@ class OrganizationService(BaseService[Organization, OrganizationCreate, Organiza
     ) -> Page[Organization]:
         query = select(self.model)
         query = filters.filter(query)
-        # query = filters.sort(query)
+        query = filters.sort(query)
         result = await paginate(db, query=query)
 
         return result
