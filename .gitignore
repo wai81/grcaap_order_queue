@@ -36,3 +36,4 @@ dist-ssr
 /backend/app/models/__pycache__
 /backend/app/services/__pycache__
 handler_1c/alembic/versions/2024_08_21_0034-3bc08c0cd893_initial_tables.py
+.env

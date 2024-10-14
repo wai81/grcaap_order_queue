@@ -32,7 +32,7 @@ const OrderLineSearch: React.FC = observer(() => {
     };
 
     return (
-        <div className="p-4 mt-4">
+        <div className="p-2 mt-4">
             <Row>
                 <Col xs={0} md={1}></Col>
                 <Col xs={12} md={6} className="p-2">
