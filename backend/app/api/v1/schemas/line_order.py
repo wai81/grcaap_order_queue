@@ -33,7 +33,7 @@ class LineOrderResponse(BaseModel):
     id: UUID4
     order_number: str
     order_create_date: datetime
-    costumer_contact_phone: str
+    # costumer_contact_phone: str
     organization_id: int
     is_completed: bool
     created_at: datetime

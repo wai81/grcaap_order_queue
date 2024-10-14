@@ -10,13 +10,21 @@ def include_routes(app):  # добавляем список маршрутов
     app.include_router(api_router)
 
 
+origins = [
+"http://grka.by",
+"http://10.2.5.219:3000",
+"*"
+]
+
 def start_app():
     app = FastAPI(title=settings.PROJECT_TITLE, version=settings.PROJECT_VERSION)
     include_routes(app)
     if settings.BACKEND_CORS_ORIGINS:
         app.add_middleware(
             CORSMiddleware,
-            allow_origins=["*"],  # [str(origin) for origin in settings.BACKEND_CORS_ORIGINS],
+            allow_origins= origins,
+            # ["*"],
+            # [str(origin) for origin in settings.BACKEND_CORS_ORIGINS],
             allow_credentials=True,
             allow_methods=["*"],
             allow_headers=["*"],
@@ -38,7 +46,4 @@ async def stop_event():
     print('stop fastapi')
 
 
-if __name__ == "__main__":
-    import uvicorn
 
-    uvicorn.run("app.main:app", host="127.0.0.1", port=8000, reload=True)
