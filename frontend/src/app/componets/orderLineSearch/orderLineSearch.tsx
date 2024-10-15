@@ -95,7 +95,8 @@ const OrderLineSearch: React.FC = observer(() => {
                                             </Form.Control.Feedback>
                                         )}
                                     </InputGroup>
-                                    <Button variant={'dark'} onClick={handleSearch} >
+                                    {/* <Button variant={'dark'} onClick={handleSearch} > */}
+                                    <Button onClick={handleSearch} >
                                         Поиск
                                     </Button>
                                 </Stack>

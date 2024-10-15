@@ -25,6 +25,15 @@ body {
     flex-grow: 1;
 }
 
+.header {
+    color: #112D49;
+}
+
+.bg-body-tertiary{
+    --bs-bg-opacity: 0 !important;
+    background-color: rgb(248 249 250 / 0%) !important;
+}
+
 .footer {
 
     padding: 10px;

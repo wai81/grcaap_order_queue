@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Col, Container, Row} from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import "./styles.css"
 
 const Footer: React.FC = () => {
@@ -14,7 +14,7 @@ const Footer: React.FC = () => {
                             Гродненское агентство
                         </h4>
                         <div>г. Гродно, 230003</div>
-                        <div>ул. Захаров, 27</div>
+                        <div>ул. Захарова, 27</div>
                         <div><span>Телефон: </span> (0152) 62 21 62</div>
                         <div><span>Факс: </span> (0152) 62 21 34</div>
                         <div><span>Email: </span><a href="mailto:d400@nca.by">d400@nca.by</a></div>
@@ -82,18 +82,18 @@ const Footer: React.FC = () => {
 
                 </Row>
             </Container>
-                {/*Footer bottom*/}
-                <div className={"footer-bottom"}>
-                    <p className={"text-center"}>
-                        &copy;
-                        {new Date().getFullYear()} РУП "Гродненское агентство по государственной регистрации и
-                        земельному кадастру"
-                    </p>
-                </div>
+            {/*Footer bottom*/}
+            <div className={"footer-bottom"}>
+                <p className={"text-center"}>
+                    &copy;
+                    {new Date().getFullYear()} РУП "Гродненское агентство по государственной регистрации и
+                    земельному кадастру"
+                </p>
+            </div>
 
         </footer>
 
-)
+    )
 }
 
 export default Footer
