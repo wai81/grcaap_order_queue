@@ -186,20 +186,7 @@ dist-ssr
 *.sln
 *.sw?
 
+handler_1c/alembic/versions/*.py
 
-/backend/.env
-/backend/venv
-/backend/app/__pycache__
-/backend/app/api/__pycache__
-/backend/app/api/v1/__pycache__
-/backend/app/api/v1/endpoints/__pycache__
-/backend/app/api/v1/filters/__pycache__
-/backend/app/api/v1/schemas/__pycache__
-/backend/app/core/__pycache__
-/backend/app/models/__pycache__
-/backend/app/services/__pycache__
-handler_1c/alembic/versions/2024_08_21_0034-3bc08c0cd893_initial_tables.py
 
-backend/app/__pycache__/main.cpython-310.pyc
 
-*.pyc

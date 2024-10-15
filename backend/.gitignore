@@ -145,6 +145,8 @@ cython_debug/
 .idea/vcs.xml
 .idea/grkapp_fastapi.iml
 .idea/misc.xml
+
+
 /.idea/inspectionProfiles/profiles_settings.xml
 /.idea/.gitignore
 /.idea/backend.iml
