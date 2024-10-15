@@ -202,3 +202,4 @@ handler_1c/alembic/versions/2024_08_21_0034-3bc08c0cd893_initial_tables.py
 
 backend/app/__pycache__/main.cpython-310.pyc
 
+*.pyc
