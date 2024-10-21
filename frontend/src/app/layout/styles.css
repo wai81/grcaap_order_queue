@@ -44,8 +44,8 @@ body {
     right: 0;
 }
 .footer-branch{
-    /*padding-top: 1rem;*/
-    width: 20%;
+    /* padding-top: 1rem; */
+    /* width: 15%; */
 }
 
 .footer-branch a{
@@ -68,7 +68,7 @@ body {
 }
 
 .footer-bottom{
-    padding-top: 2rem;
+    padding-top: 1rem;
 }
 
 @media (max-width: 1400px){
