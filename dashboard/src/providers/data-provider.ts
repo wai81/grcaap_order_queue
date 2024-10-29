@@ -27,16 +27,36 @@ export const dataProvider: DataProvider = {
   
       return { data };
   },
-  getList: async({resource, pagination, filters, sorters, meta}) => {
-    const response = await fetch(`${API_URL}/${resource}`);
+  getList: async ({ resource, pagination, filters, sorters, meta }) => {
+    const params = new URLSearchParams();
+
+    if (pagination) {
+      params.append("page", pagination.current);
+      params.append("size", pagination.pageSize);
+    }
+
+    if (sorters && sorters.length > 0) {
+        params.append("_sort", sorters.map((sorter) => sorter.field).join(","));
+        params.append("_order", sorters.map((sorter) => sorter.order).join(","));
+      }
+
+    if (filters && filters.length > 0) {
+    filters.forEach((filter) => {
+        if ("field" in filter && filter.operator === "eq") {
+        // Our fake API supports "eq" operator by simply appending the field name and value to the query string.
+        params.append(filter.field, filter.value);
+        }
+    });
+    }
+    const response = await fetch(`${API_URL}/${resource}?${params.toString()}`);
 
     if (response.status < 200 || response.status > 299) throw response;
 
     const data = await response.json();
-
+    console.log(data);
     return {
-      data,
-      total: 0, // We'll cover this in the next steps.
+      data: data.items,
+      total: data.total, // We'll cover this in the next steps.
     };
   },
   create: () => {
