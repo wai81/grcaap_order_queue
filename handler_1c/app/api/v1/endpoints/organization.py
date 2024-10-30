@@ -28,6 +28,22 @@ async def get_organizations(*,
     result = objects
     return result
 
+@router.get("/{organization_id}",
+            status_code=201,
+            response_model=OrganizationInDB)
+async def get_organization(*,
+                              organization_id: int,
+                              db: AsyncSession = Depends(get_db)
+                              ) -> dict:
+    """Получить данные организации"""
+    result = await services.organization_service.get(db=db, id=organization_id)
+    if not result:
+        raise HTTPException(
+            status_code=404, detail=f"Организация не найдена"
+        )
+    return result
+
+
 @router.post("",
              status_code=201,
              response_model=OrganizationInDB)
