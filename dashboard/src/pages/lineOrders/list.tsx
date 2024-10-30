@@ -19,6 +19,7 @@ export const ListLineOrders = () => {
     } = useTable({
         pagination: { current: 1, pageSize: 10 },
         sorters: { initial: [{ field: "order_number", order: "asc" }] },
+        syncWithLocation: true,
     });
 
     const { showUrl, editUrl } = useNavigation();
