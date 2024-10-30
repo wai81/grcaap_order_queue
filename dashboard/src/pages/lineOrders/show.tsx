@@ -1,4 +1,4 @@
-import { useOne, useShow } from "@refinedev/core";
+import { useShow } from "@refinedev/core";
 
 export const ShowLineOrder = () => {
     const { query: { data, isLoading }, } = useShow();

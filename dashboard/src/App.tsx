@@ -1,4 +1,4 @@
-import { Authenticated, Refine, WelcomePage } from '@refinedev/core'
+import { Authenticated, Refine } from '@refinedev/core'
 import { dataProvider } from './providers/data-provider'
 import { ShowLineOrder } from './pages/lineOrders/show'
 import { EditLineOrder } from './pages/lineOrders/edit'
@@ -46,7 +46,7 @@ function App() {
               <Route index element={<ListLineOrders />} />
               <Route path=":id" element={<ShowLineOrder />} />
               <Route path=":id/edit" element={<EditLineOrder />} />
-              <Route path="create" element={<EditLineOrder />} />
+              <Route path="create" element={<CreateOrderLine />} />
             </Route>
           </Route>
           <Route
