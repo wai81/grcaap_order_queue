@@ -1,4 +1,5 @@
-import { useMany, useTable } from "@refinedev/core";
+import { useMany, useNavigation, useTable } from "@refinedev/core";
+import { Link } from "react-router-dom";
 
 export const ListLineOrders = () => {
     // const { data, isLoading } = useList({
@@ -16,10 +17,11 @@ export const ListLineOrders = () => {
         sorters,
         setSorters,
     } = useTable({
-        resource: "line_orders",
         pagination: { current: 1, pageSize: 10 },
         sorters: { initial: [{ field: "order_number", order: "asc" }] },
     });
+
+    const { showUrl, editUrl } = useNavigation();
 
     const { data: organizations } = useMany({
         resource: "organizations",
@@ -69,6 +71,10 @@ export const ListLineOrders = () => {
     // We'll use this object to display visual indicators for the sorters.
     const indicator = { asc: "⬆️", desc: "⬇️" };
 
+    // You can also use methods like show or list to trigger navigation.
+    // We're using url methods to provide more semantically correct html.
+
+
     return (
         <div>
             <h1>Заказы</h1>
@@ -96,6 +102,7 @@ export const ListLineOrders = () => {
                         <th onClick={() => onSort("created_at")}>
                             Создан {indicator[getSorter("created_at")]}
                         </th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -111,6 +118,10 @@ export const ListLineOrders = () => {
                             <td>{order.costumer_contact_phone}</td>
                             <td>{order.is_completed}</td>
                             <td>{order.created_at}</td>
+                            <td>
+                                <Link to={showUrl("line_orders", order.id)}>Show</Link>
+                                <Link to={editUrl("line_orders", order.id)}>Edit</Link>
+                            </td>
                         </tr>
 
                     ))}

@@ -1,10 +1,7 @@
 import { useForm, useSelect } from "@refinedev/core";
 
 export const CreateOrderLine = () => {
-    const { onFinish, mutation } = useForm({
-        action: "create",
-        resource: "line_orders",
-    });
+    const { onFinish, mutation } = useForm();
 
     const { options } = useSelect({
         resource: "organizations",
@@ -19,7 +16,6 @@ export const CreateOrderLine = () => {
         //const data = Object.fromEntries(new FormData(event.target).entries());
         const data = Object.fromEntries(new FormData(event.target as HTMLFormElement).entries());
         // Calling onFinish to submit with the data we've collected from the form.
-        console.log(data)
         onFinish({
             ...data,
             // organization_id: Number(data.organization),

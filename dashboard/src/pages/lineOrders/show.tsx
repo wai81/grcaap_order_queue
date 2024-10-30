@@ -1,7 +1,7 @@
-import { useOne } from "@refinedev/core";
+import { useOne, useShow } from "@refinedev/core";
 
 export const ShowLineOrder = () => {
-    const { data, isLoading } = useOne({ resource: "line_orders", id: 'f431e951-252f-4f54-8b1e-22759bcccf2d' });
+    const { query: { data, isLoading }, } = useShow();
 
     if (isLoading) {
         return <div>Loading...</div>;
