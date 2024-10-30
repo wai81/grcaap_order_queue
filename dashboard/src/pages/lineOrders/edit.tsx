@@ -2,9 +2,7 @@ import { useForm, useOne, useSelect, useUpdate } from "@refinedev/core";
 
 export const EditLineOrder = () => {
     const { onFinish, mutation, query } = useForm({
-        action: "edit",
-        resource: "line_orders",
-        id: "bf5d0bca-22ba-489b-aff1-4f8f76480ef8"
+        redirect: "show",
     });
 
     const record = query?.data?.data;
@@ -17,7 +15,7 @@ export const EditLineOrder = () => {
         event.preventDefault();
 
         // Using FormData to get the form values and convert it to an object.
-        const data = Object.fromEntries(new FormData(event.target).entries());
+        const data = Object.fromEntries(new FormData(event.target as HTMLFormElement).entries());
         // Calling onFinish to submit with the data we've collected from the form.
         console.log(data)
         onFinish({

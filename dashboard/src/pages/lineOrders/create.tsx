@@ -1,7 +1,9 @@
 import { useForm, useSelect } from "@refinedev/core";
 
 export const CreateOrderLine = () => {
-    const { onFinish, mutation } = useForm();
+    const { onFinish, mutation } = useForm({
+        redirect: "edit",
+    });
 
     const { options } = useSelect({
         resource: "organizations",
