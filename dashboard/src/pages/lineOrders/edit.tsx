@@ -11,7 +11,7 @@ export const EditLineOrder = () => {
     const updateStatus = async () => {
         await mutate({
             resource: "line_orders",
-            id: 'c8314ed7-40b3-4e00-8f3f-e664227ed7ef',
+            id: 'f431e951-252f-4f54-8b1e-22759bcccf2d',
             values: {
                 is_completed: true,
             },

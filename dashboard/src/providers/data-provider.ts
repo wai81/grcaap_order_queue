@@ -1,6 +1,6 @@
 import type { DataProvider } from "@refinedev/core";
 
-export const API_URL = 'http://10.2.5.219:8000'//import.meta.env.API_URL
+const API_URL =import.meta.env.VITE_API_URL
 
 export const dataProvider: DataProvider = {
   getOne: async({ resource, id, meta }) => {
@@ -36,8 +36,19 @@ export const dataProvider: DataProvider = {
     }
 
     if (sorters && sorters.length > 0) {
-        params.append("_sort", sorters.map((sorter) => sorter.field).join(","));
-        params.append("_order", sorters.map((sorter) => sorter.order).join(","));
+        params.append("order_by", sorters.map((sorter) => {
+          const _sort: string[] = [];
+          const _order: string[] = [];
+          _sort.push(sorter.field)
+          if (sorter.order === "asc") {
+            _order.push("+");
+          }
+          if (sorter.order === "desc") {
+            _order.push("-");
+          }
+          return `${_order}${_sort}`;
+        }).join());
+        //params.append("",sorters.map((sorter) => sorter.field).join(","));
       }
 
     if (filters && filters.length > 0) {

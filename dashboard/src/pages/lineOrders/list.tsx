@@ -4,8 +4,8 @@ export const ListLineOrders = () => {
     const { data, isLoading } = useList({
         resource: "line_orders",
         pagination: { current: 1, pageSize: 10 },
-        sorters: [{ field: "order_number", order: "asc" }],
-        filters: [{ field: "costumer_contact_phone", operator: "eq", value: "375298882999" }],
+        sorters: [{ field: "order_number", order: "desc" }],
+        filters: [{ field: "order_number", operator: "eq", value: "3336-2(24)" }],
     });
 
     if (isLoading) {
