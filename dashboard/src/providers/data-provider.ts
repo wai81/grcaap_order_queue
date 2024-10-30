@@ -2,8 +2,23 @@ import type { DataProvider } from "@refinedev/core";
 
 const API_URL =import.meta.env.VITE_API_URL
 
+const fetcher = async (url: string, options?: RequestInit) => {  
+  const token = localStorage.getItem("my_access_token");  
+
+  const headers: HeadersInit = {  
+    ...(options?.headers || {}),  
+    ...(token ? { Authorization: token } : {}), // Only add Authorization if token exists  
+  };  
+
+  return fetch(url, {  
+    ...options,  
+    headers,  
+  });  
+};  
+
 export const dataProvider: DataProvider = {
   getOne: async({ resource, id, meta }) => {
+
     const response = await fetch(`${API_URL}/${resource}/${id}`);
    
     if (response.status < 200 || response.status > 299) throw response;
@@ -13,7 +28,9 @@ export const dataProvider: DataProvider = {
     return { data };
   },
   update: async({ resource, id, variables }) => {
-    const response = await fetch(`${API_URL}/${resource}/${id}`, {
+
+    //const response = await fetch(`${API_URL}/${resource}/${id}`, {
+    const response = await fetcher(`${API_URL}/${resource}/${id}`, {
         //method: "PATCH",
         method: "PUT",
         body: JSON.stringify(variables),
@@ -59,8 +76,10 @@ export const dataProvider: DataProvider = {
         params.append(filter.field, filter.value);
         }
     });
-    }
-    const response = await fetch(`${API_URL}/${resource}?${params.toString()}`);
+  }
+
+    //const response = await fetch(`${API_URL}/${resource}?${params.toString()}`);
+    const response = await fetcher(`${API_URL}/${resource}?${params.toString()}`);
 
     if (response.status < 200 || response.status > 299) throw response;
 
@@ -71,7 +90,9 @@ export const dataProvider: DataProvider = {
     };
   },
   create: async ({ resource, variables }) => {
-    const response = await fetch(`${API_URL}/${resource}`, {
+
+    //const response = await fetch(`${API_URL}/${resource}`, {
+    const response = await fetcher(`${API_URL}/${resource}`,{
       method: "POST",
       body: JSON.stringify(variables),
       headers: {

@@ -1,11 +1,21 @@
 import { AuthProvider } from "@refinedev/core";
 
+// Assuming OnErrorResponse is defined elsewhere  
+type OnErrorResponse = {  
+    logout?: boolean;  
+    error?: Error;  // Required structure for the error property  
+  };  
+
 export const authProvider: AuthProvider = {
   getIdentity: async () => {
+        const token = localStorage.getItem("my_access_token");  
+
+        const headers: HeadersInit = {  
+            ...(token ? { Authorization: token } : {}), // Use token only if it's truthy  
+          };  
+
         const response = await fetch("https://api.fake-rest.refine.dev/auth/me", {
-            headers: {
-            Authorization: localStorage.getItem("my_access_token"),
-            },
+            headers,
         });
 
         if (response.status < 200 || response.status > 299) {
@@ -50,8 +60,15 @@ export const authProvider: AuthProvider = {
     // We're returning success: true to indicate that the logout operation was successful.
     return { success: true };
   },
-  onError: async (error) => {
-    throw new Error("Not implemented");
+  onError: async (error : { status?: number }): Promise<OnErrorResponse> => {
+    if (error?.status === 401) {
+        return {
+          logout: true,
+          error: new Error("Unauthorized")//{ message: "Unauthorized" },
+        };
+      }
+  
+      return {};
   },
   // ...
 };
