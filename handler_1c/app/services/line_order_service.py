@@ -6,7 +6,7 @@ from fastapi_pagination.ext.async_sqlalchemy import paginate
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 
-from app.api.v1.filters.line_order import OrderFilter
+from app.api.v1.filters.line_order import OrderListFilter
 from app.api.v1.schemas.line_order import LineOrderCreate, LineOrderUpdate, LineOrderInDB, LineOrderResponse, \
     LineOrderChangeStatus
 from app.models.line_order import LineOrder
@@ -90,17 +90,16 @@ class LineOrderService(BaseService[LineOrder, LineOrderCreate, LineOrderUpdate])
         result = await db.execute(query)  # Execute the query
         return result.fetchone()
 
-    async def search_order(self,
+    async def get_list_filter(self,
                            db: AsyncSession, *,
-                           filters: OrderFilter,
+                           filters: OrderListFilter,
                            ) -> LineOrderResponse:
         query = select(self.model)
         query = filters.filter(query)
-        # query = filters.sort(query)
-        result = await db.execute(query)
-
-        return result.fetchone()
-
+        query = filters.sort(query)
+        # result = await db.execute(query)
+        result = await paginate(db, query=query)
+        return result
     # async def change_status(self,
     #                         db: AsyncSession, *,
     #                         db_obj: LineOrder,

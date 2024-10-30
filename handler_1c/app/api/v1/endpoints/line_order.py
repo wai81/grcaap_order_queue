@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy import func
 from app import services
-from app.api.v1.filters.line_order import OrderFilter
+from app.api.v1.filters.line_order import OrderListFilter
 from app.api.v1.schemas.line_order import LineOrderInDB, LineOrderCreate, LineOrderUpdate, LineOrderResponse, \
     LineOrderChangeStatus
 from app.api.dependencies import get_db
@@ -21,12 +21,11 @@ router = APIRouter()
             status_code=200,
             response_model=Page[LineOrderInDB])
 async def get_orders(*,
-                     # skip: int = Query(0, ge=0),
-                     # limit: int = Query(50, gt=0),
+                     filters: OrderListFilter = FilterDepends(OrderListFilter),
                      db: AsyncSession = Depends(get_db)
                      ) -> any:
     """Получение списка заказов"""
-    objects = await services.line_order_service.get_list(db=db)
+    objects = await services.line_order_service.get_list_filter(db=db, filters=filters)
     result = objects
     return result
 
@@ -65,7 +64,7 @@ async def get_line_orders_search(*,
     return result
 
 
-@router.get("/order/{order_id}",
+@router.get("/{order_id}",
             status_code=200,
             response_model=LineOrderResponse)
 async def get_line_orders_by_order_id(*,
