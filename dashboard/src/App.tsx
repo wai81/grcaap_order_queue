@@ -20,6 +20,16 @@ function App() {
         dataProvider={dataProvider}
         authProvider={authProvider}
         routerProvider={routerProvider}
+        resources={[
+          {
+            name: "line_orders",
+            list: "/line_orders",
+            show: "/line_orders/:id",
+            edit: "/line_orders/:id/edit",
+            create: "/line_orders/create",
+            meta: { label: "Line Orders" },
+          },
+        ]}
       >
         <Routes>
           <Route element={
@@ -31,13 +41,19 @@ function App() {
               <Outlet />
             </Authenticated>
           }>
-            <Route index element={<ListLineOrders />} />
+            <Route index element={<Navigate to="/line_orders" />} />
+            <Route path='/line_orders'>
+              <Route index element={<ListLineOrders />} />
+              <Route path=":id" element={<ShowLineOrder />} />
+              <Route path=":id/edit" element={<EditLineOrder />} />
+              <Route path="create" element={<EditLineOrder />} />
+            </Route>
           </Route>
           <Route
             element={
               <Authenticated key="auth-pages" fallback={<Outlet />}>
                 {/* We're redirecting the user to `/` if they are authenticated and trying to access the `/login` route */}
-                <Navigate to="/" />
+                <Navigate to="/line_orders" />
               </Authenticated>
             }
           >
