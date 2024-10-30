@@ -14,9 +14,9 @@ function App() {
     <Refine dataProvider={dataProvider}>
       {/* <WelcomePage /> */}
       {/* <ShowLineOrder /> */}
-      {/* <EditLineOrder /> */}
+      <EditLineOrder />
       {/* < ListLineOrders /> */}
-      <CreateOrderLine />
+      {/* <CreateOrderLine /> */}
     </Refine>
   )
 }

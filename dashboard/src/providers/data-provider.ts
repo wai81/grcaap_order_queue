@@ -14,7 +14,8 @@ export const dataProvider: DataProvider = {
   },
   update: async({ resource, id, variables }) => {
     const response = await fetch(`${API_URL}/${resource}/${id}`, {
-        method: "PATCH",
+        //method: "PATCH",
+        method: "PUT",
         body: JSON.stringify(variables),
         headers: {
           "Content-Type": "application/json",

@@ -1,29 +1,60 @@
-import { useOne, useUpdate } from "@refinedev/core";
+import { useForm, useOne, useSelect, useUpdate } from "@refinedev/core";
 
 export const EditLineOrder = () => {
-    const { data, isLoading } = useOne({ resource: "line_orders/order", id: 'c8314ed7-40b3-4e00-8f3f-e664227ed7ef' });
-    const { mutate, isLoading: isUpdating } = useUpdate();
+    const { onFinish, mutation, query } = useForm({
+        action: "edit",
+        resource: "line_orders",
+        id: "bf5d0bca-22ba-489b-aff1-4f8f76480ef8"
+    });
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
+    const record = query?.data?.data;
 
-    const updateStatus = async () => {
-        await mutate({
-            resource: "line_orders",
-            id: 'f431e951-252f-4f54-8b1e-22759bcccf2d',
-            values: {
-                is_completed: true,
-            },
+    const { options } = useSelect({
+        resource: "organizations",
+    });
+
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        // Using FormData to get the form values and convert it to an object.
+        const data = Object.fromEntries(new FormData(event.target).entries());
+        // Calling onFinish to submit with the data we've collected from the form.
+        console.log(data)
+        onFinish({
+            ...data,
+            // organization_id: Number(data.organization),
         });
     };
 
+
     return (
-        <div>
-            <div>Заказ: {data?.data.order_number}</div>
-            <div>Очередь: {data?.data.row_num}</div>
-            <div>Статус: {data?.data.is_completed}</div>
-            <button onClick={updateStatus}>Изменить статус</button>
-        </div>
+        <form onSubmit={onSubmit}>
+            <label htmlFor="order_number">Заказ</label>
+            <input type="text" id="order_number" name="order_number" defaultValue={record?.order_number} />
+
+            <label htmlFor="costumer_contact_phone">Телефон</label>
+            <input type="text" id="costumer_contact_phone" name="costumer_contact_phone" defaultValue={record?.costumer_contact_phone} />
+
+            <label htmlFor="order_create_date">Дата Заказа</label>
+            <input type="datetime-local" id="order_create_date" name="order_create_date" defaultValue={record?.order_create_date} />
+
+            <input type="checkbox" id="is_completed" name="is_completed" defaultValue={record?.is_completed} />
+            <label htmlFor="is_completed">Выполнен</label>
+
+            <label htmlFor="organization_id">ТОР ID</label>
+            {/* <input type="number" id="organization" name="organization" /> */}
+            <select id="organization_id" name="organization_id">
+                {options?.map((option) => (
+                    <option key={option.value} value={Number(option.value)}
+                        selected={record?.organization_id == option.value}
+                    >
+                        {option.label}
+                    </option>
+                ))}
+            </select>
+
+            {mutation.isSuccess && <span>successfully submitted!</span>}
+            <button type="submit">Submit</button>
+        </form>
     );
 };
