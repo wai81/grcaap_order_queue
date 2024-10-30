@@ -3,6 +3,7 @@ import { dataProvider } from './providers/data-provider'
 import { ShowLineOrder } from './pages/lineOrders/show'
 import { EditLineOrder } from './pages/lineOrders/edit'
 import { ListLineOrders } from './pages/lineOrders/list'
+import { CreateOrderLine } from './pages/lineOrders/create'
 
 
 
@@ -14,7 +15,8 @@ function App() {
       {/* <WelcomePage /> */}
       {/* <ShowLineOrder /> */}
       {/* <EditLineOrder /> */}
-      < ListLineOrders />
+      {/* < ListLineOrders /> */}
+      <CreateOrderLine />
     </Refine>
   )
 }
