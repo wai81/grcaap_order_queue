@@ -5,6 +5,8 @@ import { EditLineOrder } from './pages/lineOrders/edit'
 import { ListLineOrders } from './pages/lineOrders/list'
 import { CreateOrderLine } from './pages/lineOrders/create'
 import { authProvider } from './providers/auth-provider'
+import { Login } from './pages/login'
+import { Header } from './components/header'
 
 
 
@@ -16,7 +18,8 @@ function App() {
       dataProvider={dataProvider}
       authProvider={authProvider}
     >
-      <Authenticated key="protected" fallback={<div>Вы не авторизованы</div>}>
+      <Authenticated key="protected" fallback={<div>Вы не авторизованы <Login /></div>}>
+        <Header />
         {/* <WelcomePage /> */}
         {/* <ShowLineOrder /> */}
         {/* <EditLineOrder /> */}
