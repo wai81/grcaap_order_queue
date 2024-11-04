@@ -10,7 +10,7 @@ import { Header } from './components/header'
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom'
 import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
 import { ConfigProvider, App as AntdApp } from 'antd'
-import { ThemedLayoutV2, ThemedTitleV2 } from "@refinedev/antd";
+import { ThemedLayoutV2, ThemedTitleV2, useNotificationProvider } from "@refinedev/antd";
 import "antd/dist/reset.css";
 
 function App() {
@@ -24,6 +24,7 @@ function App() {
             dataProvider={dataProvider}
             authProvider={authProvider}
             routerProvider={routerProvider}
+            notificationProvider={useNotificationProvider}
             resources={[
               {
                 name: "line_orders",
