@@ -8,9 +8,9 @@ import { authProvider } from './providers/auth-provider'
 import { Login } from './pages/login'
 import { Header } from './components/header'
 import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom'
-import routerProvider from "@refinedev/react-router-v6";
+import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
 import { ConfigProvider, App as AntdApp } from 'antd'
-import { ThemedLayoutV2 } from "@refinedev/antd";
+import { ThemedLayoutV2, ThemedTitleV2 } from "@refinedev/antd";
 import "antd/dist/reset.css";
 
 function App() {
@@ -27,10 +27,10 @@ function App() {
             resources={[
               {
                 name: "line_orders",
-                list: "/line_orders",
-                show: "/line_orders/:id",
-                edit: "/line_orders/:id/edit",
-                create: "/line_orders/create",
+                list: "/orders",
+                show: "/orders/:id",
+                edit: "/orders/:id/edit",
+                create: "/orders/create",
                 meta: { label: "Line Orders" },
               },
             ]}
@@ -42,13 +42,13 @@ function App() {
                 // If the user is authenticated, we'll render the `<Header />` component and the `<Outlet />` component to render the inner routes.
                 <Authenticated key="authenticated-routes" redirectOnFail="/login">
                   {/* <Header /> */}
-                  <ThemedLayoutV2>
+                  <ThemedLayoutV2 Title={(props) => (<ThemedTitleV2 {...props} text="Состояние заказов" />)}>
                     <Outlet />
                   </ThemedLayoutV2>
                 </Authenticated>
               }>
-                <Route index element={<Navigate to="/line_orders" />} />
-                <Route path='/line_orders'>
+                <Route index element={<NavigateToResource resource="line_orders" />} />
+                <Route path='/orders'>
                   <Route index element={<ListLineOrders />} />
                   <Route path=":id" element={<ShowLineOrder />} />
                   <Route path=":id/edit" element={<EditLineOrder />} />
@@ -59,7 +59,7 @@ function App() {
                 element={
                   <Authenticated key="auth-pages" fallback={<Outlet />}>
                     {/* We're redirecting the user to `/` if they are authenticated and trying to access the `/login` route */}
-                    <Navigate to="/line_orders" />
+                    <NavigateToResource resource="line_orders" />
                   </Authenticated>
                 }
               >
