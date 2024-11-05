@@ -1,8 +1,7 @@
-import { Create, SaveButton, useSelect } from "@refinedev/antd";
-import { useForm } from "@refinedev/core";
+import { Create, useSelect, useForm } from "@refinedev/antd";
 import { Form, Input, Select } from "antd";
 
-export const CreateOrderLine = () => {
+export const LineOrderCreate = () => {
     // const { onFinish, mutation } = useForm({
     //     redirect: "edit",
     // });
@@ -34,7 +33,7 @@ export const CreateOrderLine = () => {
     // };
 
     return (
-        <Create>
+        <Create saveButtonProps={saveButtonProps}>
             <Form {...formProps} layout="vertical">
                 <Form.Item label="Номер заказа" name="order_number">
                     <Input />

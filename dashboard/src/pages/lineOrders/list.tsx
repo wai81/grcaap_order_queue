@@ -1,9 +1,9 @@
-import { List, EditButton, FilterDropdown, getDefaultSortOrder, ShowButton, useSelect, useTable } from "@refinedev/antd";
+import { List, EditButton, FilterDropdown, getDefaultSortOrder, ShowButton, useSelect, useTable, BooleanField, DateField } from "@refinedev/antd";
 import { getDefaultFilter, useMany } from "@refinedev/core";
 import { Select, Space, Table } from "antd";
 
 
-export const ListLineOrders = () => {
+export const LineOrdersList = () => {
     // We'll use pass `tableProps` to the `<Table />` component,
     // This will manage the data, pagination, filters and sorters for us.
     const { tableProps, sorters, filters } = useTable({
@@ -57,17 +57,20 @@ export const ListLineOrders = () => {
                     )}
                     defaultFilteredValue={getDefaultFilter("organization.id", filters, "eq")}
                 />
-                <Table.Column dataIndex="order_create_date" title="Дата заказа"
+                <Table.Column dataIndex={["order_create_date"]} title="Дата заказа"
                     sorter
-                    defaultSortOrder={getDefaultSortOrder("order_create_date", sorters)} />
+                    defaultSortOrder={getDefaultSortOrder("order_create_date", sorters)}
+                    render={(value: any) => <DateField value={value} format=" DD.MM.YYYY HH:mm" />} />
                 <Table.Column dataIndex="costumer_contact_phone" title="Телефон" />
-                <Table.Column dataIndex="is_completed" title="Статус"
+                <Table.Column dataIndex={["is_completed"]} title="Статус"
                     sorter
                     defaultSortOrder={getDefaultSortOrder("is_completed", sorters)}
+                    render={(value: any) => <BooleanField value={value} />}
                 />
-                <Table.Column dataIndex="created_at" title="Создан"
+                <Table.Column dataIndex={["created_at"]} title="Создан"
                     sorter
-                    defaultSortOrder={getDefaultSortOrder("created_at", sorters)} />
+                    defaultSortOrder={getDefaultSortOrder("created_at", sorters)}
+                    render={(value: any) => <DateField value={value} format=" DD.MM.YYYY HH:mm" />} />
                 <Table.Column
                     title=""
                     render={(_, record) => (

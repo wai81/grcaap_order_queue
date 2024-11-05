@@ -1,17 +1,17 @@
 import { Authenticated, Refine } from '@refinedev/core'
 import { dataProvider } from './providers/data-provider'
-import { ShowLineOrder } from './pages/lineOrders/show'
-import { EditLineOrder } from './pages/lineOrders/edit'
-import { ListLineOrders } from './pages/lineOrders/list'
-import { CreateOrderLine } from './pages/lineOrders/create'
+import { LineOrderShow } from './pages/lineOrders/show'
+import { LineOrderEdit } from './pages/lineOrders/edit'
+import { LineOrdersList } from './pages/lineOrders/list'
+import { LineOrderCreate } from './pages/lineOrders/create'
 import { authProvider } from './providers/auth-provider'
 import { Login } from './pages/login'
-import { Header } from './components/header'
-import { BrowserRouter, Navigate, Outlet, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom'
 import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
 import { ConfigProvider, App as AntdApp } from 'antd'
 import { ThemedLayoutV2, ThemedTitleV2, useNotificationProvider } from "@refinedev/antd";
 import "antd/dist/reset.css";
+import { OrganizationList } from './pages/organizations/list'
 
 function App() {
 
@@ -32,8 +32,14 @@ function App() {
                 show: "/orders/:id",
                 edit: "/orders/:id/edit",
                 create: "/orders/create",
-                meta: { label: "Line Orders" },
+                meta: { label: "Orders" },
               },
+              {
+                name: "organizations",
+                list: "/organizations",
+                meta: { label: "Organizations" },
+              }
+
             ]}
           >
             <Routes>
@@ -50,10 +56,13 @@ function App() {
               }>
                 <Route index element={<NavigateToResource resource="line_orders" />} />
                 <Route path='/orders'>
-                  <Route index element={<ListLineOrders />} />
-                  <Route path=":id" element={<ShowLineOrder />} />
-                  <Route path=":id/edit" element={<EditLineOrder />} />
-                  <Route path="create" element={<CreateOrderLine />} />
+                  <Route index element={<LineOrdersList />} />
+                  <Route path=":id" element={<LineOrderShow />} />
+                  <Route path=":id/edit" element={<LineOrderEdit />} />
+                  <Route path="create" element={<LineOrderCreate />} />
+                </Route>
+                <Route path="/organizations">
+                  <Route index element={<OrganizationList />} />
                 </Route>
               </Route>
               <Route
