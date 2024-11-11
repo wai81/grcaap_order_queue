@@ -12,7 +12,9 @@ class OrderListFilter(Filter):
     order_by: Optional[list[str]] = Field(default=None)
     order_number: Optional[str] = Field(default=None)
     # order_create_date: Optional[datetime] = Field(alias='order_create_date', default=None)
-    organization: Optional[OrganizationFilter] = FilterDepends(with_prefix('organization', OrganizationFilter))
+    # organization: Optional[OrganizationFilter] = FilterDepends(with_prefix('organization', OrganizationFilter))
+    organization_id__in: Optional[list[int]] = Field(default=None)
+    is_completed__in: Optional[list[bool]] = Field(default=None)
 
     class Constants(Filter.Constants):
         model = LineOrder

@@ -70,10 +70,15 @@ export const dataProvider: DataProvider = {
       }
 
     if (filters && filters.length > 0) {
+      console.log(filters.values)
     filters.forEach((filter) => {
         if ("field" in filter && filter.operator === "eq") {
-        // Our fake API supports "eq" operator by simply appending the field name and value to the query string.
-        params.append(filter.field, filter.value);
+          if (filter.value !== null && filter.value !== undefined && filter.value !== "" &&   
+            !(Array.isArray(filter.value) && filter.value.length === 0) &&  
+            !(typeof filter.value === 'object' && Object.keys(filter.value).length === 0)){
+            // Our fake API supports "eq" operator by simply appending the field name and value to the query string.
+            params.append(filter.field, filter.value);
+            }
         }
     });
   }
