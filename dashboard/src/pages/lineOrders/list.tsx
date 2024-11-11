@@ -8,7 +8,7 @@ export const LineOrdersList = () => {
     // This will manage the data, pagination, filters and sorters for us.
     const { tableProps, sorters, filters } = useTable({
         //resource: "line_orders",
-        //sorters: { initial: [{ field: "order_number", order: "asc" }] },
+        sorters: { initial: [{ field: "created_at", order: "desc" }] },
         // We're adding default values for our filters
         filters: {
             initial: [
@@ -48,7 +48,7 @@ export const LineOrdersList = () => {
     return (
         <List>
             <Table {...tableProps} rowKey={"id"}>
-                <Table.Column dataIndex="id" title="ID" />
+                {/* <Table.Column dataIndex="id" title="ID" /> */}
                 <Table.Column dataIndex="order_number" title="Номер заказа"
                     sorter
                     defaultSortOrder={getDefaultSortOrder("order_number", sorters)} />
