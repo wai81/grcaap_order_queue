@@ -12,6 +12,8 @@ import { ConfigProvider, App as AntdApp } from 'antd'
 import { ThemedLayoutV2, ThemedTitleV2, useNotificationProvider } from "@refinedev/antd";
 import "antd/dist/reset.css";
 import { OrganizationList } from './pages/organizations/list'
+import { DashboardOutlined } from '@ant-design/icons'
+import { DashboardPage } from './pages/dashboard'
 
 function App() {
 
@@ -26,6 +28,14 @@ function App() {
             routerProvider={routerProvider}
             notificationProvider={useNotificationProvider}
             resources={[
+              {
+                name: "dashboard",
+                list: "/",
+                meta: {
+                  label: "Dashboard",
+                  icon: <DashboardOutlined />,
+                },
+              },
               {
                 name: "line_orders",
                 list: "/orders",
@@ -54,6 +64,7 @@ function App() {
                   </ThemedLayoutV2>
                 </Authenticated>
               }>
+                <Route index element={<DashboardPage />} />
                 <Route index element={<NavigateToResource resource="line_orders" />} />
                 <Route path='/orders'>
                   <Route index element={<LineOrdersList />} />
@@ -69,7 +80,8 @@ function App() {
                 element={
                   <Authenticated key="auth-pages" fallback={<Outlet />}>
                     {/* We're redirecting the user to `/` if they are authenticated and trying to access the `/login` route */}
-                    <NavigateToResource resource="line_orders" />
+                    {/* <NavigateToResource resource="line_orders" /> */}
+                    <NavigateToResource resource="dashboard" />
                   </Authenticated>
                 }
               >

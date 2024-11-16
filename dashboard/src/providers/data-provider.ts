@@ -120,5 +120,46 @@ export const dataProvider: DataProvider = {
   // createMany: () => { /* ... */ },
   // deleteMany: () => { /* ... */ },
   // updateMany: () => { /* ... */ },
-  // custom: () => { /* ... */ },
+  custom: async ({ url, method, payload, filters, sorters, query, headers }) => {
+    const params = new URLSearchParams();
+
+    if (sorters && sorters.length > 0) {
+      params.append("order_by", sorters.map((sorter) => {
+        const _sort: string[] = [];
+        const _order: string[] = [];
+        _sort.push(sorter.field)
+        if (sorter.order === "asc") {
+          _order.push("+");
+        }
+        if (sorter.order === "desc") {
+          _order.push("-");
+        }
+        return `${_order}${_sort}`;
+      }).join());
+      //params.append("",sorters.map((sorter) => sorter.field).join(","));
+    }
+
+    if (filters && filters.length > 0) {
+        console.log(filters.values)
+      filters.forEach((filter) => {
+          if ("field" in filter && filter.operator === "eq") {
+            if (filter.value !== null && filter.value !== undefined && filter.value !== "" &&   
+              !(Array.isArray(filter.value) && filter.value.length === 0) &&  
+              !(typeof filter.value === 'object' && Object.keys(filter.value).length === 0)){
+              // Our fake API supports "eq" operator by simply appending the field name and value to the query string.
+              params.append(filter.field, filter.value);
+              }
+          }
+      });
+    }
+    //const response = await fetcher(`${API_URL}/${resource}?${params.toString()}`)
+    const response = await fetch(`${url}?${params.toString()}`, {
+      method,
+      headers,
+      body: JSON.stringify(payload),
+    });
+    if (response.status < 200 || response.status > 299) throw response;
+    const data = await response.json();
+    return { data };
+  },
 };
