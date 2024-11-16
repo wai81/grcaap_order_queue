@@ -6,9 +6,9 @@ from fastapi_pagination.ext.async_sqlalchemy import paginate
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, func
 
-from app.api.v1.filters.line_order import OrderListFilter
+from app.api.v1.filters.line_order import OrderListFilter,OrderCountFilter
 from app.api.v1.schemas.line_order import LineOrderCreate, LineOrderUpdate, LineOrderInDB, LineOrderResponse, \
-    LineOrderChangeStatus
+    LineOrderChangeStatus, OrderCountByOrganization
 from app.models.line_order import LineOrder
 from app.services.base_service import BaseService
 
@@ -107,5 +107,21 @@ class LineOrderService(BaseService[LineOrder, LineOrderCreate, LineOrderUpdate])
     #                         ):
     #     pass
 
+    async def get_orders_count(self, db:AsyncSession
+    #,*,filters: OrderCountFilter
+    ) -> Any:
+         
+        query = (  
+            select(
+                
+            func.date(LineOrder.order_create_date).label("order_date"),
+            #LineOrder.organization_id, 
+            func.count(LineOrder.id).label("count"))  
+            .group_by(func.date(LineOrder.order_create_date), LineOrder.organization_id)
+            .order_by(LineOrder.order_create_date)  
+        )
+        # query = filters.filter(query)
+        result = await db.fetchall(query) 
+        return result
 
 line_order_service = LineOrderService(LineOrder)

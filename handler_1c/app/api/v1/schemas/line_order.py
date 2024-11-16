@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from typing import Optional
 
 from pydantic import BaseModel
@@ -43,5 +43,12 @@ class LineOrderResponse(BaseModel):
         from_attributes = True
 
 
+
 class LineOrderChangeStatus(BaseModel):
     is_completed: bool
+
+
+class OrderCountByOrganization(BaseModel):
+    order_date: date
+    # organization_id: int
+    count_orders: int
