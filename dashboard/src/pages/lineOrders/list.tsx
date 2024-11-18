@@ -1,12 +1,15 @@
-import { List, EditButton, FilterDropdown, getDefaultSortOrder, ShowButton, useSelect, useTable, BooleanField, DateField } from "@refinedev/antd";
-import { getDefaultFilter, useMany } from "@refinedev/core";
+import { List, EditButton, FilterDropdown, getDefaultSortOrder, ShowButton, useSelect, useTable, BooleanField, DateField, CreateButton } from "@refinedev/antd";
+import { getDefaultFilter, HttpError, useMany } from "@refinedev/core";
 import { Select, Space, Table } from "antd";
+import { IOrder, IOrganization } from "../../interfaces";
+import { PaginationTotal } from "../../components/paginationTotal";
+import { OrderStatus } from "../../components/order/status";
 
 
 export const LineOrdersList = () => {
     // We'll use pass `tableProps` to the `<Table />` component,
     // This will manage the data, pagination, filters and sorters for us.
-    const { tableProps, sorters, filters } = useTable({
+    const { tableProps, sorters, filters } = useTable<IOrder, HttpError>({
         //resource: "line_orders",
         sorters: { initial: [{ field: "created_at", order: "desc" }] },
         // We're adding default values for our filters
@@ -34,20 +37,34 @@ export const LineOrdersList = () => {
     //     ids: tableProps?.dataSource?.map((order) => order.organization_id) ?? [],
     // });
 
-    const { selectProps: organyzationSelectProps, query: queryResult, } = useSelect({
+    const { selectProps: organyzationSelectProps, query: queryResult, } = useSelect<IOrganization>({
         resource: "organizations",
         optionLabel: "title",
         optionValue: "id",
         sorters: [{ field: "id", order: "asc" }],
         //defaultValue: getDefaultFilter("organization_id", filters, "in"),
         defaultValue: getDefaultFilter("organization_id", filters, "eq"),
+        pagination: {
+            pageSize: 25,
+        },
     });
 
     const organizations = queryResult?.data?.data || [];
 
     return (
-        <List>
-            <Table {...tableProps} rowKey={"id"}>
+        <List
+            headerButtons={<CreateButton disabled />}
+        >
+            <Table
+                {...tableProps}
+                rowKey={"id"}
+                pagination={{
+                    ...tableProps.pagination,
+                    showTotal: (total) => (
+                        <PaginationTotal total={total} entityName="Orders" />
+                    ),
+                }}
+            >
                 {/* <Table.Column dataIndex="id" title="ID" /> */}
                 <Table.Column dataIndex="order_number" title="Номер заказа"
                     sorter
@@ -109,7 +126,7 @@ export const LineOrdersList = () => {
                             </Select>
                         </FilterDropdown>
                     )}
-                    render={(value: any) => <BooleanField value={value} />}
+                    render={(value: boolean) => <OrderStatus status={value} />}
                 />
                 <Table.Column dataIndex={["created_at"]} title="Создан"
                     sorter
@@ -119,9 +136,8 @@ export const LineOrdersList = () => {
                     title=""
                     render={(_, record) => (
                         <Space>
-                            {/* We'll use the `EditButton` and `ShowButton` to manage navigation easily */}
                             <ShowButton hideText size="small" recordItemId={record.id} />
-                            <EditButton hideText size="small" recordItemId={record.id} />
+                            <EditButton disabled hideText size="small" recordItemId={record.id} />
                         </Space>
                     )}
                 />

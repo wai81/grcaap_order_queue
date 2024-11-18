@@ -1,10 +1,11 @@
 import React from "react";
-import { BaseRecord } from "@refinedev/core";
+import { BaseRecord, HttpError } from "@refinedev/core";
 import { useTable, List, BooleanField, DateField } from "@refinedev/antd";
 import { Table, Space } from "antd";
+import { IOrganization } from "../../interfaces";
 
 export const OrganizationList = () => {
-    const { tableProps } = useTable({
+    const { tableProps } = useTable<IOrganization, HttpError>({
         syncWithLocation: true,
     });
 

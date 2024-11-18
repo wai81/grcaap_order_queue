@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 //import { Column, type ColumnConfig } from "@ant-design/plots";
 import dayjs from "dayjs";
-import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 // const data = [
 //     { name: 'Page A', uv: 4000, pv: 2400, amt: 2400 },
@@ -13,18 +13,21 @@ import { Bar, BarChart, CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, 
 //     { name: 'Page G', uv: 3490, pv: 4300, amt: 2100 },
 //];
 
-export const DailyOrders = ({ data }) => {
+export const DailyOrders = ({ data, width, height, barSize }) => {
 
-    console.log(data)
+    //console.log(data)
     return (
-        <BarChart width={350} height={300} data={data}>
+        // <ResponsiveContainer>
+        <BarChart width={width} height={height} data={data}>
+            {/* <BarChart data={data}> */}
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="timeText" />
             <YAxis />
             <Tooltip />
-            <Legend />
-            <Bar dataKey="count_orders" fill="#8884d8" />
+            {/* <Legend /> */}
+            <Bar dataKey="count_orders" fill="lightblue" barSize={barSize} />
         </BarChart>
+        // </ResponsiveContainer>
     );
 }
 
