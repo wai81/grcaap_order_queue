@@ -1,12 +1,14 @@
 import { List, EditButton, FilterDropdown, getDefaultSortOrder, ShowButton, useSelect, useTable, BooleanField, DateField, CreateButton } from "@refinedev/antd";
 import { getDefaultFilter, HttpError, useMany } from "@refinedev/core";
-import { Select, Space, Table } from "antd";
+import { Input, Select, Space, Table, theme, Typography } from "antd";
 import { IOrder, IOrganization } from "../../interfaces";
 import { PaginationTotal } from "../../components/paginationTotal";
 import { OrderStatus } from "../../components/order/status";
+import { SearchOutlined } from "@ant-design/icons";
 
 
 export const LineOrdersList = () => {
+    const { token } = theme.useToken();
     // We'll use pass `tableProps` to the `<Table />` component,
     // This will manage the data, pagination, filters and sorters for us.
     const { tableProps, sorters, filters } = useTable<IOrder, HttpError>({
@@ -15,6 +17,11 @@ export const LineOrdersList = () => {
         // We're adding default values for our filters
         filters: {
             initial: [
+                {
+                    field: "order_number",
+                    operator: "eq",
+                    value: "",
+                },
                 {
                     field: "organization_id__in",
                     operator: "eq",
@@ -68,7 +75,36 @@ export const LineOrdersList = () => {
                 {/* <Table.Column dataIndex="id" title="ID" /> */}
                 <Table.Column dataIndex="order_number" title="Номер заказа"
                     sorter
-                    defaultSortOrder={getDefaultSortOrder("order_number", sorters)} />
+                    defaultSortOrder={getDefaultSortOrder("order_number", sorters)}
+                    key={"order_number"}
+                    filterIcon={(filtered) => (
+                        <SearchOutlined
+                            style={{
+                                color: filtered ? token.colorPrimary : undefined,
+                            }}
+                        />
+                    )}
+                    defaultFilteredValue={getDefaultFilter("order_number", filters, "eq")}
+                    filterDropdown={(props) => (
+                        <FilterDropdown {...props}>
+                            <Input
+                                placeholder={"Введите Номер заказа"}
+                            //placeholder={t("products.filter.name.placeholder")} 
+                            />
+                        </FilterDropdown>
+                    )}
+                    render={(value: string) => {
+                        return (
+                            <Typography.Text
+                                style={{
+                                    whiteSpace: "nowrap",
+                                }}
+                            >
+                                {value}
+                            </Typography.Text>
+                        );
+                    }}
+                />
                 <Table.Column
                     dataIndex={["organization_id", "title"]}
                     title="Организация"
