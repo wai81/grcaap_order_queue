@@ -2,9 +2,10 @@ import { useApiUrl, useCustom } from "@refinedev/core";
 import { Button, Card, Col, Dropdown, Row, type MenuProps } from "antd";
 import { useMemo, useState } from "react";
 import dayjs from "dayjs";
-import { DailyOrders } from "../../components/dashboard/dailyorders";
+import { DailyOrders } from "../../components/dashboard/dailyOrders";
 import { DownOutlined } from "@ant-design/icons";
 import { List } from "@refinedev/antd";
+import { MapOrders } from "../../components/dashboard/mapOrders";
 
 type DateFilter = "lastWeek" | "lastMonth";
 
@@ -458,7 +459,9 @@ export const DashboardPage: React.FC = () => {
                     </Row>
                 </Col>
                 <Col xl={15} lg={15} md={24} sm={24} xs={24}>
-                    Map
+                    <Card>
+                        <MapOrders />
+                    </Card>
                 </Col>
                 <Col xl={9} lg={9} md={24} sm={24} xs={24}>
                     Timeline
