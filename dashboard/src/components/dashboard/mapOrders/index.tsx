@@ -14,8 +14,9 @@ export const MapOrders: React.FC = () => {
     const { show } = useNavigation();
 
     return (
-        <Map mapProps={defaultProps}>
-            {/* {orderData?.data.map((order) => {
+        <Map>
+            {/* <Map mapProps={defaultProps}>
+            {orderData?.data.map((order) => {
                 return (
                     <MapMarker
                         key={order.id}

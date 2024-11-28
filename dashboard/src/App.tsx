@@ -32,7 +32,7 @@ function App() {
                 name: "dashboard",
                 list: "/",
                 meta: {
-                  label: "Dashboard",
+                  label: "Инфа-панель",
                   icon: <DashboardOutlined />,
                 },
               },
@@ -42,12 +42,12 @@ function App() {
                 show: "/orders/:id",
                 edit: "/orders/:id/edit",
                 create: "/orders/create",
-                meta: { label: "Orders" },
+                meta: { label: "Заказы" },
               },
               {
                 name: "organizations",
                 list: "/organizations",
-                meta: { label: "Organizations" },
+                meta: { label: "Организации" },
               }
 
             ]}
