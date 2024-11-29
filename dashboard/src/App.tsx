@@ -32,7 +32,7 @@ function App() {
                 name: "dashboard",
                 list: "/",
                 meta: {
-                  label: "Инфа-панель",
+                  label: "Инфо-панель",
                   icon: <DashboardOutlined />,
                 },
               },

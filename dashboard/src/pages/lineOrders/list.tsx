@@ -136,7 +136,7 @@ export const LineOrdersList = () => {
                 <Table.Column dataIndex={["order_create_date"]} title="Дата заказа"
                     sorter
                     defaultSortOrder={getDefaultSortOrder("order_create_date", sorters)}
-                    render={(value: any) => <DateField value={value} format=" DD.MM.YYYY HH:mm" />} />
+                    render={(value: any) => <DateField value={value} format=" DD.MM.YYYY" />} />
                 <Table.Column dataIndex="costumer_contact_phone" title="Телефон" />
                 <Table.Column dataIndex={["is_completed"]} title="Статус"
                     key={"is_completed__in"}

@@ -5,17 +5,17 @@ export const DailyOrders = ({ data, width, height, barSize }) => {
 
     //console.log(data)
     return (
-        // <ResponsiveContainer>
-        <BarChart width={width} height={height} data={data}>
-            {/* <BarChart data={data}> */}
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="timeText" />
-            <YAxis />
-            <Tooltip />
-            {/* <Legend /> */}
-            <Bar dataKey="count_orders" fill="lightblue" barSize={barSize} />
-        </BarChart>
-        // </ResponsiveContainer>
+        <ResponsiveContainer width="100%" height={height}>
+            <BarChart width={width} height={height} data={data}>
+                {/* <BarChart data={data}> */}
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="timeText" />
+                <YAxis />
+                <Tooltip />
+                {/* <Legend /> */}
+                <Bar dataKey="count_orders" fill="lightblue" barSize={barSize} />
+            </BarChart>
+        </ResponsiveContainer>
     );
 }
 
