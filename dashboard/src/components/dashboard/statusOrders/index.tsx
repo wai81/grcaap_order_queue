@@ -26,12 +26,11 @@ export const StatusOrdersBarChart = ({ data, width, height }: any) => {
     return (
         <ResponsiveContainer width="100%" height={height}>
             <ComposedChart width={width} height={height} data={data}>
-                {/* <BarChart data={data}> */}
+
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="timeText" />
                 <YAxis />
                 <Tooltip content={CustomTooltip} />
-                {/* <Legend /> */}
                 <Line type="monotone" dataKey={"count_orders"} stroke="red" activeDot={{ r: 5 }} dot={{ r: 0 }} />
                 <Area type="monotone" dataKey={"work"} fill="#41b4f2" stroke="#41b4f2" />
                 <Area type="monotone" dataKey={"completed"} fill="#82ca9d" stroke="#82ca9d" />

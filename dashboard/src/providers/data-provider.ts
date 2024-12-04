@@ -49,7 +49,13 @@ export const dataProvider: DataProvider = {
     const params = new URLSearchParams();
 
     if (pagination) {
-      params.append("page", pagination.current!.toString());
+      const currentPage = pagination.current;  
+      if (currentPage !== undefined) {
+        params.append("page", pagination.current!.toString());
+      }else{
+        params.append("page", "1");
+      }
+      // params.append("page", pagination.current!.toString());
       params.append("size", pagination.pageSize!.toString());
     }
 
@@ -140,7 +146,7 @@ export const dataProvider: DataProvider = {
     }
 
     if (filters && filters.length > 0) {
-        console.log(filters.values)
+       // console.log(filters.values)
       filters.forEach((filter) => {
           if ("field" in filter && filter.operator === "eq") {
             if (filter.value !== null && filter.value !== undefined && filter.value !== "" &&   

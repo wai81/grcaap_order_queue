@@ -14,7 +14,7 @@ export const LineOrderShow = () => {
     });
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <div>Загрузка...</div>;
     }
 
     return (
@@ -33,7 +33,7 @@ export const LineOrderShow = () => {
 
             <Typography.Title level={5}>ТОР</Typography.Title>
             <TextField
-                value={organizationIsLoading ? "Loading..." : organizationData?.data?.title}
+                value={organizationIsLoading ? "Загрузка..." : organizationData?.data?.title}
             />
 
             <Typography.Title level={5}>Статус</Typography.Title>
