@@ -8,7 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.future import select
 from sqlalchemy import func
 from app import services
-from app.api.v1.filters.line_order import OrderListFilter, OrderCountFilter
+from app.api.v1.filters.line_order import OrderListFilter, OrderCountFilter,OrderLineFilter
 from app.api.v1.schemas.line_order import LineOrderInDB, LineOrderCreate, LineOrderUpdate, LineOrderResponse, \
     LineOrderChangeStatus, OrderCountByOrganization
 from app.api.dependencies import get_db
@@ -26,6 +26,18 @@ async def get_orders(*,
                      ) -> any:
     """Получение списка заказов"""
     objects = await services.line_order_service.get_list_filter(db=db, filters=filters)
+    result = objects
+    return result
+
+@router.get("/in_line",
+            status_code=200,
+            response_model=Page[LineOrderResponse])
+async def get_orders(*,
+                    filters: OrderLineFilter = FilterDepends(OrderLineFilter),
+                    db: AsyncSession = Depends(get_db)
+                     ) -> Page[LineOrderResponse]:
+    """Получение списка заказов в работе с номером очереди"""
+    objects = await services.line_order_service.get_line_orders_filter(db=db, filters=filters)
     result = objects
     return result
 

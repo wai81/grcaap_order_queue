@@ -54,7 +54,13 @@ class OrderCountByOrganization(BaseModel):
     count_orders: int
 
 class OrderCountBySatus(BaseModel):
-    order_date: date
     count_orders: int
     completed_orders: int
     not_completed_orders: int
+
+class OrderCountBySatusByDate(OrderCountBySatus):
+    order_date: date
+    # count_orders: int
+    # completed_orders: int
+    # not_completed_orders: int
+
