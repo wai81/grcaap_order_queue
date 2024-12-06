@@ -1,8 +1,9 @@
 import { getDefaultFilter, useInfiniteList, useSelect } from "@refinedev/core";
 import { ILineOrder, IOrganization } from "../../../interfaces";
-import { List as AntdList, Skeleton, Typography } from "antd";
+import { List as AntdList, Skeleton, Tag, Typography } from "antd";
 import { OrderStatus } from "../../order/status";
 import { DateField } from "@refinedev/antd";
+import { TagOutlined } from "@ant-design/icons";
 
 type Props = {
     height?: string;
@@ -11,7 +12,7 @@ type Props = {
 export const CurrentOrders = ({ height = "550px" }: Props) => {
 
     const { data: orderList, isLoading, hasNextPage, fetchNextPage } = useInfiniteList<ILineOrder>({
-        resource: "line_orders",
+        resource: "line_orders/in_line",
         sorters: [
             {
                 field: "created_at",
@@ -65,6 +66,9 @@ export const CurrentOrders = ({ height = "550px" }: Props) => {
                                 active
                             >
                                 <OrderStatus status={item.is_completed} />
+                                <Tag color="orange" icon={<TagOutlined />}>
+                                    {item.row_num}
+                                </Tag>
                                 <Typography.Text strong>
                                     {item.order_number}
                                 </Typography.Text>

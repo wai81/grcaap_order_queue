@@ -1,40 +1,39 @@
-import { Edit, useForm, useSelect } from "@refinedev/antd";
+import { Create, useSelect, useForm } from "@refinedev/antd";
 import { Form, Input, Select } from "antd";
 
-export const LineOrderEdit = () => {
-    // const { onFinish, mutation, query } = useForm({
-    //     redirect: "show",
+export const OrderCreate = () => {
+    // const { onFinish, mutation } = useForm({
+    //     redirect: "edit",
     // });
 
-    const { formProps, saveButtonProps, query } = useForm({
+    const { formProps, saveButtonProps } = useForm({
         refineCoreProps: {
-            redirect: "show",
+            redirect: "edit",
         },
     });
 
-    const record = query?.data?.data;
-
     const { selectProps } = useSelect({
         resource: "organizations",
-        defaultValue: query?.data?.data?.organization_id,
+        // optionLabel: "title", // Default value is "title" so we don't need to provide it.
+        // optionValue: "id", // Default value is "id" so we don't need to provide it.
     });
 
     // const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     //     event.preventDefault();
 
     //     // Using FormData to get the form values and convert it to an object.
+    //     //const data = Object.fromEntries(new FormData(event.target).entries());
     //     const data = Object.fromEntries(new FormData(event.target as HTMLFormElement).entries());
     //     // Calling onFinish to submit with the data we've collected from the form.
-    //     console.log(data)
     //     onFinish({
     //         ...data,
     //         // organization_id: Number(data.organization),
+    //         is_completed: false,
     //     });
     // };
 
-
     return (
-        <Edit>
+        <Create saveButtonProps={saveButtonProps}>
             <Form {...formProps} layout="vertical">
                 <Form.Item label="Номер заказа" name="order_number">
                     <Input />
@@ -54,6 +53,6 @@ export const LineOrderEdit = () => {
                 {/* SaveButton renders a submit button to submit our form */}
                 {/* <SaveButton {...saveButtonProps} /> */}
             </Form>
-        </Edit>
+        </Create>
     );
 };

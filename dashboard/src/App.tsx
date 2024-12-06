@@ -1,9 +1,9 @@
 import { Authenticated, Refine } from '@refinedev/core'
 import { dataProvider } from './providers/data-provider'
-import { LineOrderShow } from './pages/lineOrders/show'
-import { LineOrderEdit } from './pages/lineOrders/edit'
-import { LineOrdersList } from './pages/lineOrders/list'
-import { LineOrderCreate } from './pages/lineOrders/create'
+import { OrderShow } from './pages/orders/show'
+import { OrderEdit } from './pages/orders/edit'
+import { OrdersList } from './pages/orders/list'
+import { OrderCreate } from './pages/orders/create'
 import { authProvider } from './providers/auth-provider'
 import { Login } from './pages/login'
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom'
@@ -14,6 +14,7 @@ import "antd/dist/reset.css";
 import { OrganizationList } from './pages/organizations/list'
 import { DashboardOutlined } from '@ant-design/icons'
 import { DashboardPage } from './pages/dashboard'
+import { OrdersLineList } from './pages/orders_line/list'
 
 function App() {
 
@@ -37,12 +38,29 @@ function App() {
                 },
               },
               {
+                name: "orders",
+                meta: {
+                  label: "Заказы"
+                }
+              },
+              {
                 name: "line_orders",
-                list: "/orders",
-                show: "/orders/:id",
-                edit: "/orders/:id/edit",
-                create: "/orders/create",
-                meta: { label: "Заказы" },
+                list: "/orders/all_orders",
+                show: "/orders/all_orders/:id",
+                edit: "/orders/all_orders/:id/edit",
+                create: "/orders/all_orders/create",
+                meta: {
+                  label: "Все Заказы",
+                  parent: "orders",
+                },
+              },
+              {
+                name: "in_line",
+                list: "orders/orders_line",
+                meta: {
+                  label: "Заказы в очереди",
+                  parent: "orders",
+                },
               },
               {
                 name: "organizations",
@@ -65,16 +83,23 @@ function App() {
                 </Authenticated>
               }>
                 <Route index element={<DashboardPage />} />
-                <Route index element={<NavigateToResource resource="line_orders" />} />
-                <Route path='/orders'>
-                  <Route index element={<LineOrdersList />} />
-                  <Route path=":id" element={<LineOrderShow />} />
-                  <Route path=":id/edit" element={<LineOrderEdit />} />
-                  <Route path="create" element={<LineOrderCreate />} />
+                <Route index element={<NavigateToResource resource="dashboard" />} />
+
+                <Route path='orders'>
+                  <Route path='all_orders'>
+                    <Route index element={<OrdersList />} />
+                    <Route path=":id" element={<OrderShow />} />
+                    <Route path=":id/edit" element={<OrderEdit />} />
+                    <Route path="create" element={<OrderCreate />} />
+                  </Route>
+                  <Route path="orders_line">
+                    <Route index element={<OrdersLineList />} />
+                  </Route>
                 </Route>
-                <Route path="/organizations">
+                <Route path="organizations">
                   <Route index element={<OrganizationList />} />
                 </Route>
+
               </Route>
               <Route
                 element={

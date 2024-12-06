@@ -2,7 +2,7 @@ import { MarkdownField, Show, TextField } from "@refinedev/antd";
 import { useOne, useShow } from "@refinedev/core";
 import { Typography } from "antd";
 
-export const LineOrderShow = () => {
+export const OrderShow = () => {
     const { query: { data, isLoading }, } = useShow();
 
     const { data: organizationData, isLoading: organizationIsLoading } = useOne({
