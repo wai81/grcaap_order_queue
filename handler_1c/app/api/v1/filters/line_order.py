@@ -43,7 +43,9 @@ class OrderLineFilter(Filter):
     order_by: Optional[list[str]] = Field(default=None)
     order_number: Optional[str] = Field(default=None)
     organization_id__in: Optional[list[int]] = Field(default=None)
-    is_completed__in: Optional[list[bool]] = Field(default=None)
+    order_create_date__gte: Optional[datetime] = Field(alias='order_create_date_gte', default=None)
+    order_create_date__lte: Optional[datetime] = Field(alias='order_create_date_lte', default=None)
+    # is_completed__in: Optional[list[bool]] = Field(default=None)
 
     class Constants(Filter.Constants):
         model = LineOrder
@@ -62,9 +64,12 @@ class OrderLineFilter(Filter):
         if filters.order_number:  
             query = query.where(subquery.c.order_number == filters.order_number)  
 
-        # Фильтр по статусу завершенности  
-        if filters.is_completed__in:  
-            query = query.where(subquery.c.is_completed.in_(filters.is_completed__in))  
+        # Фильтр по датам создания заказа  
+        if filters.order_create_date__gte:  
+            query = query.where(subquery.c.order_create_date >= filters.order_create_date__gte)  
+
+        if filters.order_create_date__lte:  
+            query = query.where(subquery.c.order_create_date <= filters.order_create_date__lte) 
 
         return query  
 

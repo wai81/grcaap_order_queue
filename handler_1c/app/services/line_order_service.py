@@ -104,17 +104,23 @@ class LineOrderService(BaseService[LineOrder, LineOrderCreate, LineOrderUpdate])
 
         if filters:
             # Применяем встроенные фильтры  
-            query = filters.filter(query)  
+            #query = filters.filter(query)  
 
             # Применяем кастомные фильтры  
             query = filters.custom_filter(query, filters, subquery) 
         
-        if filters and filters.order_by:
-            for order in filters.order_by:  
-                if order.startswith("-"):  # Обратный порядок  
-                    query = query.order_by(getattr(subquery.c, order[1:]).desc())  
-                else:  
-                    query = query.order_by(getattr(subquery.c, order))  
+            if filters.order_by:
+                for order in filters.order_by:  
+                    if order.startswith("-"):  # Обратный порядок  
+                        query = query.order_by(getattr(subquery.c, order[1:]).desc())
+                    elif order.startswith("+"):  # Повозрастанию порядок  
+                        query = query.order_by(getattr(subquery.c, order[1:]).asc())  
+                    else:  
+                        query = query.order_by(getattr(subquery.c, order))  
+        
+        # query = select(subquery)  
+        #result = await db.execute(query)  
+        #print(result.fetchall()) 
 
         result = await paginate(db, query=query)
         return result  # .fetchall()
