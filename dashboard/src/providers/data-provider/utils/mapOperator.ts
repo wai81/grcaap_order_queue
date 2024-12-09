@@ -8,6 +8,8 @@ export const mapOperator = (operator: CrudOperators): string => {
       return `_${operator}`;
     case "contains":
       return "_like";
+    case "in":
+      return `__${operator}`;
     case "eq":
     default:
       return "";

@@ -23,13 +23,13 @@ export const OrdersList = () => {
                     value: "",
                 },
                 {
-                    field: "organization_id__in",
-                    operator: "eq",
+                    field: "organization_id",
+                    operator: "in",
                     value: []
                 },
                 {
-                    field: "is_completed__in",
-                    operator: "eq",
+                    field: "is_completed",
+                    operator: "in",
                     value: []
                 }
             ],
@@ -108,7 +108,7 @@ export const OrdersList = () => {
                 <Table.Column
                     dataIndex={["organization_id", "title"]}
                     title="Организация"
-                    key={"organization_id__in"}
+                    key={"organization_id"}
                     filterDropdown={(props) => (
                         <FilterDropdown
                             {...props}
@@ -124,7 +124,7 @@ export const OrdersList = () => {
                             />
                         </FilterDropdown>
                     )}
-                    defaultFilteredValue={getDefaultFilter("organization_id__in", filters, "eq")}
+                    defaultFilteredValue={getDefaultFilter("organization_id", filters, "in")}
                     render={(_, value) => {
                         const organization = organizations.find(
                             (organization) => organization?.id === value?.organization_id,
@@ -139,10 +139,10 @@ export const OrdersList = () => {
                     render={(value: any) => <DateField value={value} format=" DD.MM.YYYY" />} />
                 <Table.Column dataIndex="costumer_contact_phone" title="Телефон" />
                 <Table.Column dataIndex={["is_completed"]} title="Статус"
-                    key={"is_completed__in"}
+                    key={"is_completed"}
                     sorter
                     defaultSortOrder={getDefaultSortOrder("is_completed", sorters)}
-                    defaultFilteredValue={getDefaultFilter("is_completed__in", filters, "eq")}
+                    defaultFilteredValue={getDefaultFilter("is_completed", filters, "in")}
                     filterDropdown={(props) => (
                         <FilterDropdown {...props}>
                             <Select

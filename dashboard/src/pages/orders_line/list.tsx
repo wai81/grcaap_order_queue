@@ -23,8 +23,8 @@ export const OrdersLineList = () => {
                     value: "",
                 },
                 {
-                    field: "organization_id__in",
-                    operator: "eq",
+                    field: "organization_id",
+                    operator: "in",
                     value: []
                 },
                 {
@@ -115,7 +115,7 @@ export const OrdersLineList = () => {
                 <Table.Column
                     dataIndex={["organization_id", "title"]}
                     title="Организация"
-                    key={"organization_id__in"}
+                    key={"organization_id"}
                     filterDropdown={(props) => (
                         <FilterDropdown
                             {...props}
@@ -131,7 +131,7 @@ export const OrdersLineList = () => {
                             />
                         </FilterDropdown>
                     )}
-                    defaultFilteredValue={getDefaultFilter("organization_id__in", filters, "eq")}
+                    defaultFilteredValue={getDefaultFilter("organization_id", filters, "in")}
                     render={(_, value) => {
                         const organization = organizations.find(
                             (organization) => organization?.id === value?.organization_id,

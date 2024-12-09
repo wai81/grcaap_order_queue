@@ -9,6 +9,8 @@ import { Login } from './pages/login'
 import { BrowserRouter, Outlet, Route, Routes } from 'react-router-dom'
 import routerProvider, { NavigateToResource } from "@refinedev/react-router-v6";
 import { ConfigProvider, App as AntdApp } from 'antd'
+import ru_Ru from 'antd/locale/ru_RU'
+import 'dayjs/locale/ru';
 import { ThemedLayoutV2, ThemedTitleV2, useNotificationProvider } from "@refinedev/antd";
 import "antd/dist/reset.css";
 import { OrganizationList } from './pages/organizations/list'
@@ -17,11 +19,9 @@ import { DashboardPage } from './pages/dashboard'
 import { OrdersLineList } from './pages/orders_line/list'
 
 function App() {
-
-
   return (
     <BrowserRouter>
-      <ConfigProvider>
+      <ConfigProvider locale={ru_Ru}>
         <AntdApp>
           <Refine
             dataProvider={dataProvider}
