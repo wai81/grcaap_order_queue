@@ -48,7 +48,7 @@ export const dataProvider: DataProvider = {
   },
   getList: async ({ resource, pagination, filters, sorters, meta }) => {
     const params = new URLSearchParams();
-
+    //формируем строку запроса для пагинации
     if (pagination) {
       const currentPage = pagination.current;  
       if (currentPage !== undefined) {
@@ -59,35 +59,21 @@ export const dataProvider: DataProvider = {
       // params.append("page", pagination.current!.toString());
       params.append("size", pagination.pageSize!.toString());
     }
+    //формируем строку запроса если есть сотртировка данных
     const getSort = generateSort(sorters)
-    console.log(getSort)
     if (getSort) {
        const { _sort, _order } = getSort;
        params.append("order_by",`${_order}${_sort}`)
     }
-
-    // if (sorters && sorters.length > 0) {
-        
-    //     params.append("order_by", sorters.map((sorter) => {
-    //       const _sort: string[] = [];
-    //       const _order: string[] = [];
-    //       _sort.push(sorter.field)
-    //       if (sorter.order === "asc") {
-    //         _order.push("+");
-    //       }
-    //       if (sorter.order === "desc") {
-    //         _order.push("-");
-    //       }
-    //       return `${_order}${_sort}`;
-    //     }).join());
-    //     //params.append("",sorters.map((sorter) => sorter.field).join(","));
-    //   }
-    
+    //формируем строку запроса если есть фильтры
     if (filters && filters.length > 0) {
       const getFilter = generateFilter(filters)
-      console.log(getFilter);
       Object.entries(getFilter).forEach(([key, value])=>{
-        params.append(key, value);
+        if (value.length !== 0 && value !== undefined && value !== "" &&   
+          !(Array.isArray(value) && value.length === 0) &&  
+          !(typeof value === 'object' && Object.keys(value).length === 0)) {
+          params.append(key, value);
+        }
       })
       //params.append(getFilter.)
       // filters.forEach((filter) => {
@@ -142,34 +128,21 @@ export const dataProvider: DataProvider = {
   custom: async ({ url, method, payload, filters, sorters, query, headers }) => {
     const params = new URLSearchParams();
 
-    if (sorters && sorters.length > 0) {
-      params.append("order_by", sorters.map((sorter) => {
-        const _sort: string[] = [];
-        const _order: string[] = [];
-        _sort.push(sorter.field)
-        if (sorter.order === "asc") {
-          _order.push("+");
-        }
-        if (sorter.order === "desc") {
-          _order.push("-");
-        }
-        return `${_order}${_sort}`;
-      }).join());
-      //params.append("",sorters.map((sorter) => sorter.field).join(","));
+    const getSort = generateSort(sorters)
+    if (getSort) {
+       const { _sort, _order } = getSort;
+       params.append("order_by",`${_order}${_sort}`)
     }
 
     if (filters && filters.length > 0) {
-       // console.log(filters.values)
-      filters.forEach((filter) => {
-          if ("field" in filter && filter.operator === "eq") {
-            if (filter.value !== null && filter.value !== undefined && filter.value !== "" &&   
-              !(Array.isArray(filter.value) && filter.value.length === 0) &&  
-              !(typeof filter.value === 'object' && Object.keys(filter.value).length === 0)){
-              // Our fake API supports "eq" operator by simply appending the field name and value to the query string.
-              params.append(filter.field, filter.value);
-              }
-          }
-      });
+      const getFilter = generateFilter(filters)
+      Object.entries(getFilter).forEach(([key, value])=>{
+        if (value.length !== 0 && value !== undefined && value !== "" &&   
+          !(Array.isArray(value) && value.length === 0) &&  
+          !(typeof value === 'object' && Object.keys(value).length === 0)) {
+          params.append(key, value);
+        }
+      })
     }
     //const response = await fetcher(`${API_URL}/${resource}?${params.toString()}`)
     const response = await fetch(`${url}?${params.toString()}`, {
