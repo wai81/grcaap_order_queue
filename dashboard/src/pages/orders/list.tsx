@@ -1,5 +1,5 @@
 import { List, EditButton, FilterDropdown, getDefaultSortOrder, ShowButton, useSelect, useTable, BooleanField, DateField, CreateButton } from "@refinedev/antd";
-import { getDefaultFilter, HttpError, useMany } from "@refinedev/core";
+import { getDefaultFilter, HttpError, useMany, useTranslate } from "@refinedev/core";
 import { Input, Select, Space, Table, theme, Typography } from "antd";
 import { IOrder, IOrganization } from "../../interfaces";
 import { PaginationTotal } from "../../components/paginationTotal";
@@ -36,7 +36,7 @@ export const OrdersList = () => {
         },
         syncWithLocation: true,
     });
-
+    const translate = useTranslate();
 
     // const { data: organizations, isLoading } = useMany({
     //     resource: "organizations",
@@ -73,7 +73,7 @@ export const OrdersList = () => {
                 }}
             >
                 {/* <Table.Column dataIndex="id" title="ID" /> */}
-                <Table.Column dataIndex="order_number" title="Номер заказа"
+                <Table.Column dataIndex="order_number" title={translate("line_orders.fields.order_number")}
                     sorter
                     defaultSortOrder={getDefaultSortOrder("order_number", sorters)}
                     key={"order_number"}
@@ -107,7 +107,7 @@ export const OrdersList = () => {
                 />
                 <Table.Column
                     dataIndex={["organization_id", "title"]}
-                    title="Организация"
+                    title={translate("line_orders.fields.organization")}
                     key={"organization_id"}
                     filterDropdown={(props) => (
                         <FilterDropdown
@@ -133,12 +133,13 @@ export const OrdersList = () => {
                         return (organization?.title || "-")
                     }}
                 />
-                <Table.Column dataIndex={["order_create_date"]} title="Дата заказа"
+                "order_create_date": "Оrder date",
+                <Table.Column dataIndex={["order_create_date"]} title={translate("line_orders.fields.order_create_date")}//"Дата заказа"
                     sorter
                     defaultSortOrder={getDefaultSortOrder("order_create_date", sorters)}
                     render={(value: any) => <DateField value={value} format=" DD.MM.YYYY" />} />
-                <Table.Column dataIndex="costumer_contact_phone" title="Телефон" />
-                <Table.Column dataIndex={["is_completed"]} title="Статус"
+                <Table.Column dataIndex="costumer_contact_phone" title={translate("line_orders.fields.phone")} />
+                <Table.Column dataIndex={["is_completed"]} title={translate("line_orders.fields.is_active.title")}
                     key={"is_completed"}
                     sorter
                     defaultSortOrder={getDefaultSortOrder("is_completed", sorters)}
@@ -152,19 +153,18 @@ export const OrdersList = () => {
                             //placeholder={t("products.filter.isActive.placeholder")}
                             >
                                 <Select.Option value="true">
-                                    {/* {t("products.fields.isActive.true")} */}
-                                    Выполенн
+                                    {translate("line_orders.fields.is_active.true")}
                                 </Select.Option>
                                 <Select.Option value="false">
                                     {/* {t("products.fields.isActive.false")} */}
-                                    В работе
+                                    {translate("line_orders.fields.is_active.false")}
                                 </Select.Option>
                             </Select>
                         </FilterDropdown>
                     )}
                     render={(value: boolean) => <OrderStatus status={value} />}
                 />
-                <Table.Column dataIndex={["created_at"]} title="Создан"
+                <Table.Column dataIndex={["created_at"]} title={translate("line_orders.fields.created_at")}
                     sorter
                     defaultSortOrder={getDefaultSortOrder("created_at", sorters)}
                     render={(value: any) => <DateField value={value} format=" DD.MM.YYYY HH:mm" />} />

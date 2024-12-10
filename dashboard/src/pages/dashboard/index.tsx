@@ -1,4 +1,4 @@
-import { useApiUrl, useCustom } from "@refinedev/core";
+import { useApiUrl, useCustom, useTranslation } from "@refinedev/core";
 import { Button, Card, Col, Dropdown, Row, type MenuProps } from "antd";
 import { useMemo, useState } from "react";
 import dayjs from "dayjs";
@@ -20,33 +20,34 @@ const DATE_FILTERS: Record<
     }
 > = {
     lastWeek: {
-        text: "за неделю",
+        text: "lastWeek",
         value: "lastWeek",
     },
     lastMonth: {
-        text: "за меясяц",
+        text: "lastMonth",
         value: "lastMonth",
     },
     last3Month: {
-        text: "за 3 месяцев",
+        text: "last3Month",
         value: "last3Month",
     },
     last6Month: {
-        text: "за 6 месяцев",
+        text: "last6Month",
         value: "last6Month",
     },
     last9Month: {
-        text: "за 9 месяцев",
+        text: "last9Month",
         value: "last9Month",
     },
     lastYear: {
-        text: "за текущий год",
+        text: "lastYear",
         value: "lastYear",
     },
 };
 
 export const DashboardPage: React.FC = () => {
     const API_URL = useApiUrl();
+    const { translate } = useTranslation();
 
     const [selecetedDateFilter, setSelectedDateFilter] = useState<DateFilter>(
         DATE_FILTERS.lastWeek.value,
@@ -58,7 +59,7 @@ export const DashboardPage: React.FC = () => {
         return filters.map((filter) => {
             return {
                 key: DATE_FILTERS[filter].value,
-                label: DATE_FILTERS[filter].text,//t(`dashboard.filter.date.${DATE_FILTERS[filter].text}`),
+                label: translate(`dashboard.filter.date.${DATE_FILTERS[filter].text}`), //DATE_FILTERS[filter].text,//t(`dashboard.filter.date.${DATE_FILTERS[filter].text}`),
                 onClick: () => {
                     setSelectedDateFilter(DATE_FILTERS[filter].value);
                 },
@@ -707,10 +708,10 @@ export const DashboardPage: React.FC = () => {
             headerButtons={() => (
                 <Dropdown menu={{ items: dateFilters }}>
                     <Button>
-                        {/* {t(
+                        {translate(
                             `dashboard.filter.date.${DATE_FILTERS[selecetedDateFilter].text}`,
-                        )} */}
-                        {DATE_FILTERS[selecetedDateFilter].text}
+                        )}
+                        {/* {DATE_FILTERS[selecetedDateFilter].text} */}
                         <DownOutlined />
                     </Button>
                 </Dropdown>
@@ -721,13 +722,13 @@ export const DashboardPage: React.FC = () => {
                 <Col md={24}>
                     <Row gutter={[16, 16]}>
                         <Col xl={{ span: 21 }} lg={19} md={19} sm={24} xs={24}>
-                            <Card title={'Гронднеская область'}>
+                            <Card title={translate("dashboard.grodnoRegion")}>
                                 <StatusOrdersBarChart data={allOrdersCount.data} width={1500} height={270} />
                                 {/* height={170} data={ordersCount.data} /> */}
                             </Card>
                         </Col>
                         <Col xl={{ span: 3 }} lg={5} md={5} sm={24} xs={24}>
-                            <Card title={'Гронднеская область'} >
+                            <Card title={translate("dashboard.grodnoRegion")} >
                                 <CounterOrders data={ordersCounterAll.data} />
                             </Card>
                         </Col>
@@ -736,23 +737,23 @@ export const DashboardPage: React.FC = () => {
                 <Col md={24}>
                     <Row gutter={[16, 16]}>
                         <Col xl={{ span: 9 }} lg={9} md={8} sm={24} xs={24}>
-                            <Card title={'Грондно'}>
+                            <Card title={translate("dashboard.grodno")}>
                                 {/* <DailyOrders data={orders400Count.data} width={440} height={170} barSize={10} /> */}
                                 <StatusOrdersBarChart data={orders400Count.data} width={440} height={270} />
                             </Card>
                         </Col>
                         <Col xl={{ span: 3 }} lg={3} md={4} sm={24} xs={24}>
-                            <Card title={'Грондно'}>
+                            <Card title={translate("dashboard.grodno")}>
                                 <CounterOrders data={ordersCounter400.data} />
                             </Card>
                         </Col>
                         <Col xl={{ span: 9 }} lg={9} md={8} sm={24} xs={24}>
-                            <Card title={'Волковыск'}>
+                            <Card title={translate("dashboard.volkovysk")}>
                                 <StatusOrdersBarChart data={orders410Count.data} width={440} height={270} />
                             </Card>
                         </Col>
                         <Col xl={{ span: 3 }} lg={3} md={4} sm={24} xs={24}>
-                            <Card title={'Волковыск'}>
+                            <Card title={translate("dashboard.volkovysk")}>
                                 <CounterOrders data={ordersCounter410.data} />
                             </Card>
                         </Col>
@@ -762,22 +763,22 @@ export const DashboardPage: React.FC = () => {
                 <Col md={24}>
                     <Row gutter={[16, 16]}>
                         <Col xl={{ span: 9 }} lg={9} md={8} sm={24} xs={24}>
-                            <Card title={'Лида'}>
+                            <Card title={translate("dashboard.lida")}>
                                 <StatusOrdersBarChart data={orders420Count.data} width={440} height={270} />
                             </Card>
                         </Col>
                         <Col xl={{ span: 3 }} lg={3} md={4} sm={24} xs={24}>
-                            <Card title={'Лида'}>
+                            <Card title={translate("dashboard.lida")}>
                                 <CounterOrders data={ordersCounter420.data} />
                             </Card>
                         </Col>
                         <Col xl={{ span: 9 }} lg={9} md={8} sm={24} xs={24}>
-                            <Card title={'Новогрудок'}>
+                            <Card title={translate("dashboard.novogrudok")}>
                                 <StatusOrdersBarChart data={orders430Count.data} width={440} height={270} />
                             </Card>
                         </Col>
                         <Col xl={{ span: 3 }} lg={3} md={4} sm={24} xs={24}>
-                            <Card title={'Новогрудок'}>
+                            <Card title={translate("dashboard.novogrudok")}>
                                 <CounterOrders data={ordersCounter430.data} />
                             </Card>
                         </Col>
@@ -787,22 +788,22 @@ export const DashboardPage: React.FC = () => {
                 <Col md={24}>
                     <Row gutter={[16, 16]}>
                         <Col xl={{ span: 9 }} lg={9} md={8} sm={24} xs={24}>
-                            <Card title={'Ошмяны'}>
+                            <Card title={translate("dashboard.oshmyany")}>
                                 <StatusOrdersBarChart data={orders440Count.data} width={440} height={270} />
                             </Card>
                         </Col>
                         <Col xl={{ span: 3 }} lg={3} md={4} sm={24} xs={24}>
-                            <Card title={'Ошмяны'}>
+                            <Card title={translate("dashboard.oshmyany")}>
                                 <CounterOrders data={ordersCounter440.data} />
                             </Card>
                         </Col>
                         <Col xl={{ span: 9 }} lg={9} md={8} sm={24} xs={24}>
-                            <Card title={'Слоним'}>
+                            <Card title={translate("dashboard.slonim")}>
                                 <StatusOrdersBarChart data={orders450Count.data} width={440} height={270} />
                             </Card>
                         </Col>
                         <Col xl={{ span: 3 }} lg={3} md={4} sm={24} xs={24}>
-                            <Card title={'Слоним'}>
+                            <Card title={translate("dashboard.slonim")}>
                                 <CounterOrders data={ordersCounter450.data} />
                             </Card>
                         </Col>

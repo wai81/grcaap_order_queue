@@ -1,6 +1,7 @@
 import SlotCounter from "react-slot-counter"
 import './styles.css'
 import { Col, Row } from "antd";
+import { useTranslate } from "@refinedev/core";
 
 export const CounterOrders = ({ data }) => {
     const complet = 1000//data.map((c) => c.completed);
@@ -8,7 +9,7 @@ export const CounterOrders = ({ data }) => {
         return <div style={{ textAlign: "center" }}>Загрузка...</div>; // Handle case where no data is passed 
     }
     const { count_orders, completed_orders, not_completed_orders } = data[0];
-
+    const translate = useTranslate()
     return (
         <div className="counters">
             <div className="number">
@@ -18,7 +19,7 @@ export const CounterOrders = ({ data }) => {
 
                     />
                 </div>
-                <span className="label">Принято заказов</span>
+                <span className="label">{translate("dashboard.counter.all_orders")}</span>
             </div>
             <div className="number">
                 <div className="counter" style={{ color: "#41b4f2" }}>
@@ -26,7 +27,7 @@ export const CounterOrders = ({ data }) => {
                         animateOnVisible={{ triggerOnce: false, rootMargin: '0px 0px -100px 0px' }}
                     />
                 </div>
-                <span className="label">В работе</span>
+                <span className="label">{translate("dashboard.counter.in_work")}</span>
             </div>
             <div className="number">
                 <div className="counter" style={{ color: "#82ca9d" }}>
@@ -34,7 +35,7 @@ export const CounterOrders = ({ data }) => {
                         animateOnVisible={{ triggerOnce: false, rootMargin: '0px 0px -100px 0px' }}
                     />
                 </div>
-                <span className="label">Выполнено</span>
+                <span className="label">{translate("dashboard.counter.completed")}</span>
             </div>
 
         </div>

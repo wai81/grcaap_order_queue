@@ -1,4 +1,4 @@
-import { Authenticated, Refine } from '@refinedev/core'
+import { Authenticated, I18nProvider, Refine } from '@refinedev/core'
 import { dataProvider } from './providers/data-provider'
 import { OrderShow } from './pages/orders/show'
 import { OrderEdit } from './pages/orders/edit'
@@ -17,13 +17,23 @@ import { OrganizationList } from './pages/organizations/list'
 import { DashboardOutlined } from '@ant-design/icons'
 import { DashboardPage } from './pages/dashboard'
 import { OrdersLineList } from './pages/orders_line/list'
+import { useTranslation } from 'react-i18next'
+import { Header } from './components/header'
 
 function App() {
+  const { t, i18n } = useTranslation();
+
+  const i18nProvider: I18nProvider = {
+    translate: (key: string, options?: any) => t(key, options),
+    changeLocale: (lang: string) => i18n.changeLanguage(lang),
+    getLocale: () => i18n.language,
+  };
   return (
     <BrowserRouter>
       <ConfigProvider locale={ru_Ru}>
         <AntdApp>
           <Refine
+            i18nProvider={i18nProvider}
             dataProvider={dataProvider}
             authProvider={authProvider}
             routerProvider={routerProvider}
@@ -33,14 +43,14 @@ function App() {
                 name: "dashboard",
                 list: "/",
                 meta: {
-                  label: "Инфо-панель",
+                  //label: "Dashboard",
                   icon: <DashboardOutlined />,
                 },
               },
               {
                 name: "orders",
                 meta: {
-                  label: "Заказы"
+                  //label: "Orders"
                 }
               },
               {
@@ -50,7 +60,7 @@ function App() {
                 edit: "/orders/all_orders/:id/edit",
                 create: "/orders/all_orders/create",
                 meta: {
-                  label: "Все Заказы",
+                  //label: "All orders",
                   parent: "orders",
                 },
               },
@@ -58,14 +68,14 @@ function App() {
                 name: "in_line",
                 list: "orders/orders_line",
                 meta: {
-                  label: "Заказы в очереди",
+                  //label: "Orders line",
                   parent: "orders",
                 },
               },
               {
                 name: "organizations",
                 list: "/organizations",
-                meta: { label: "Организации" },
+                //meta: { label: "Organizations" },
               }
 
             ]}
@@ -77,7 +87,10 @@ function App() {
                 // If the user is authenticated, we'll render the `<Header />` component and the `<Outlet />` component to render the inner routes.
                 <Authenticated key="authenticated-routes" redirectOnFail="/login">
                   {/* <Header /> */}
-                  <ThemedLayoutV2 Title={(props) => (<ThemedTitleV2 {...props} text="Состояние заказов" />)}>
+                  <ThemedLayoutV2
+                    Title={(props) => (<ThemedTitleV2 {...props} text="Состояние заказов" />)}
+                    Header={Header}
+                  >
                     <Outlet />
                   </ThemedLayoutV2>
                 </Authenticated>

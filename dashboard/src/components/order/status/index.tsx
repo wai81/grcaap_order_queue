@@ -12,7 +12,7 @@ type OrderStatusProps = {
 };
 
 export const OrderStatus: React.FC<OrderStatusProps> = ({ status }) => {
-    const t = useTranslate();
+    const translate = useTranslate();
     let color;
     let icon;
     let textStatus;
@@ -29,9 +29,9 @@ export const OrderStatus: React.FC<OrderStatusProps> = ({ status }) => {
     }
 
     if (status === true) {
-        textStatus = "Выполнен"
+        textStatus = translate("line_orders.fields.is_active.true")//"Выполнен"
     } else {
-        textStatus = "В работе"
+        textStatus = translate("line_orders.fields.is_active.false")//"В работе"
     }
 
     return (

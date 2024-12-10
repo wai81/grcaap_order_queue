@@ -1,5 +1,5 @@
 import { List, EditButton, FilterDropdown, getDefaultSortOrder, ShowButton, useSelect, useTable, BooleanField, DateField, CreateButton, rangePickerFilterMapper } from "@refinedev/antd";
-import { getDefaultFilter, HttpError, useMany } from "@refinedev/core";
+import { getDefaultFilter, HttpError, useMany, useTranslate } from "@refinedev/core";
 import { DatePicker, Input, Select, Space, Table, Tag, theme, Typography } from "antd";
 import { ILineOrder, IOrganization } from "../../interfaces";
 import { PaginationTotal } from "../../components/paginationTotal";
@@ -9,6 +9,7 @@ import { SearchOutlined, TagOutlined, TagsOutlined } from "@ant-design/icons";
 
 export const OrdersLineList = () => {
     const { token } = theme.useToken();
+    const translate = useTranslate();
     // We'll use pass `tableProps` to the `<Table />` component,
     // This will manage the data, pagination, filters and sorters for us.
     const { tableProps, sorters, filters } = useTable<ILineOrder, HttpError>({
@@ -71,7 +72,7 @@ export const OrdersLineList = () => {
                     ),
                 }}
             >
-                <Table.Column dataIndex="row_num" title="Очередь"
+                <Table.Column dataIndex="row_num" title={translate("in_line.fields.row_num")}
                     render={(value: any) => {
                         return (
                             <Tag color="orange" icon={<TagOutlined />}>
@@ -80,7 +81,7 @@ export const OrdersLineList = () => {
                         )
                     }}
                 />
-                <Table.Column dataIndex="order_number" title="Номер заказа"
+                <Table.Column dataIndex="order_number" title={translate("in_line.fields.order_number")}
                     sorter
                     defaultSortOrder={getDefaultSortOrder("order_number", sorters)}
                     key={"order_number"}
@@ -114,7 +115,7 @@ export const OrdersLineList = () => {
                 />
                 <Table.Column
                     dataIndex={["organization_id", "title"]}
-                    title="Организация"
+                    title={translate("in_line.fields.organization")}
                     key={"organization_id"}
                     filterDropdown={(props) => (
                         <FilterDropdown
@@ -141,7 +142,7 @@ export const OrdersLineList = () => {
                     }}
                 />
                 <Table.Column dataIndex={["order_create_date"]}
-                    title="Дата заказа"
+                    title={translate("in_line.fields.order_create_date")}
                     sorter
                     filterDropdown={(props) => (
                         <FilterDropdown
@@ -160,12 +161,12 @@ export const OrdersLineList = () => {
                     )}
                     defaultSortOrder={getDefaultSortOrder("order_create_date", sorters)}
                     render={(value: any) => <DateField value={value} format=" DD.MM.YYYY" />} />
-                <Table.Column dataIndex="costumer_contact_phone" title="Телефон" />
-                <Table.Column dataIndex={["is_completed"]} title="Статус"
+                <Table.Column dataIndex="costumer_contact_phone" title={translate("in_line.fields.phone")} />
+                <Table.Column dataIndex={["is_completed"]} title={translate("in_line.fields.is_active.title")}
                     key={"is_completed__in"}
                     render={(value: boolean) => <OrderStatus status={value} />}
                 />
-                <Table.Column dataIndex={["created_at"]} title="Создан"
+                <Table.Column dataIndex={["created_at"]} title={translate("in_line.fields.created_at")}
                     sorter
                     defaultSortOrder={getDefaultSortOrder("created_at", sorters)}
                     render={(value: any) => <DateField value={value} format=" DD.MM.YYYY HH:mm" />} />
