@@ -31,7 +31,7 @@ export const OrdersLineList = () => {
                 {
                     field: "order_create_date",
                     operator: "between",
-                    value: ["", ""],
+                    value: [undefined, undefined],
                 },
             ],
         },
@@ -68,7 +68,9 @@ export const OrdersLineList = () => {
                 pagination={{
                     ...tableProps.pagination,
                     showTotal: (total) => (
-                        <PaginationTotal total={total} entityName="Orders" />
+                        <PaginationTotal total={total}
+                        //entityName="orders" 
+                        />
                     ),
                 }}
             >
@@ -141,9 +143,11 @@ export const OrdersLineList = () => {
                         return (organization?.title || "-")
                     }}
                 />
-                <Table.Column dataIndex={["order_create_date"]}
+                <Table.Column
+                    dataIndex={["order_create_date"]}
                     title={translate("in_line.fields.order_create_date")}
                     sorter
+                    key={"order_create_date"}
                     filterDropdown={(props) => (
                         <FilterDropdown
                             {...props}

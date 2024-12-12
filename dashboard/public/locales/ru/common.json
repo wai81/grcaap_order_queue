@@ -227,7 +227,8 @@
   },
   "table": {
     "actions": "Действие",
-    "inTotal": "всего"
+    "inTotal": "Всего",
+    "items": "строк"
   },
   "documentTitle": {
     "default": "refine",

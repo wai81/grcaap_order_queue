@@ -6,14 +6,14 @@ import { Typography, theme } from "antd";
 
 type PaginationTotalProps = {
     total: number;
-    entityName: string;
+    //entityName: string;
 };
 
 export const PaginationTotal: FC<PaginationTotalProps> = ({
     total,
-    entityName,
+    //entityName,
 }) => {
-    const t = useTranslate();
+    const translate = useTranslate();
     const { token } = theme.useToken();
     return (
         <div
@@ -24,17 +24,26 @@ export const PaginationTotal: FC<PaginationTotalProps> = ({
         >
             <Typography.Text
                 style={{
+                    color: token.colorTextTertiary,
+                }}
+            >
+                {translate("table.inTotal")}
+            </Typography.Text>
+            {" "}
+            <Typography.Text
+                style={{
                     color: token.colorTextSecondary,
                 }}
             >
                 {total}
-            </Typography.Text>{" "}
+            </Typography.Text>
+            {" "}
             <Typography.Text
                 style={{
                     color: token.colorTextTertiary,
                 }}
             >
-                {t(`${entityName}.${entityName}`)} {t("table.inTotal")}
+                {translate("table.items")}
             </Typography.Text>
         </div>
     );

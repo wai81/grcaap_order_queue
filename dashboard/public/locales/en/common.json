@@ -227,7 +227,8 @@
     },
     "table": {
       "actions": "Actions",
-      "inTotal": "total"
+      "inTotal": "Total",
+      "items": "items"
     },
     "documentTitle": {
       "default": "refine",

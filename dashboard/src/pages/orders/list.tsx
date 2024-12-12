@@ -60,7 +60,7 @@ export const OrdersList = () => {
 
     return (
         <List
-            headerButtons={<CreateButton disabled />}
+            headerButtons={<CreateButton hidden />}
         >
             <Table
                 {...tableProps}
@@ -68,7 +68,10 @@ export const OrdersList = () => {
                 pagination={{
                     ...tableProps.pagination,
                     showTotal: (total) => (
-                        <PaginationTotal total={total} entityName="Orders" />
+                        <PaginationTotal
+                            total={total}
+                        //    entityName="orders"
+                        />
                     ),
                 }}
             >
@@ -168,7 +171,7 @@ export const OrdersList = () => {
                     sorter
                     defaultSortOrder={getDefaultSortOrder("created_at", sorters)}
                     render={(value: any) => <DateField value={value} format=" DD.MM.YYYY HH:mm" />} />
-                <Table.Column
+                {/* <Table.Column
                     title=""
                     render={(_, record) => (
                         <Space>
@@ -176,7 +179,7 @@ export const OrdersList = () => {
                             <EditButton disabled hideText size="small" recordItemId={record.id} />
                         </Space>
                     )}
-                />
+                /> */}
 
             </Table>
         </List>

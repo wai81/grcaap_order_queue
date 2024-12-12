@@ -140,20 +140,20 @@ export const DashboardPage: React.FC = () => {
         // url: `${API_URL}/dashboard/ordercount`,
         url: `${API_URL}/dashboard/ordercount_by_status`,
         method: "get",
-        // config: {
-        //     filters: [
-        //         {
-        //             field: "order_create_date_gte",
-        //             operator: "eq",
-        //             value: dateFilterQuery.start,//now.subtract(1, "months").startOf("day").format('YYYY-MM-DD HH:mm:ss')
-        //         },
-        //         {
-        //             field: "order_create_date_lte",
-        //             operator: "eq",
-        //             value: dateFilterQuery.end//now.endOf("day").format('YYYY-MM-DD HH:mm:ss'),
-        //         },
-        //     ],
-        // }
+        config: {
+            filters: [
+                {
+                    field: "order_create_date",
+                    operator: "gte",
+                    value: dateFilterQuery.start,//now.subtract(1, "months").startOf("day").format('YYYY-MM-DD HH:mm:ss')
+                },
+                {
+                    field: "order_create_date_lte",
+                    operator: "eq",
+                    value: dateFilterQuery.end//now.endOf("day").format('YYYY-MM-DD HH:mm:ss'),
+                },
+            ],
+        }
     });
 
     const { data: orders400Data } = useCustom({

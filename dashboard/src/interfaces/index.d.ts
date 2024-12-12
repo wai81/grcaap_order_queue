@@ -11,7 +11,8 @@ export interface ILineOrder {
     id: string;
     order_number: string;
     order_create_date: string;
-    is_completed:boolean;
+    costumer_contact_phone:string;
+    is_completed: boolean;
     organization_id: number;
     created_at:string;
     row_num: number;
