@@ -5,6 +5,7 @@ import { IOrder, IOrganization } from "../../interfaces";
 import { PaginationTotal } from "../../components/paginationTotal";
 import { OrderStatus } from "../../components/order/status";
 import { SearchOutlined } from "@ant-design/icons";
+import { DeptureStatus } from "../../components/order/departureStatus";
 
 
 export const OrdersList = () => {
@@ -24,6 +25,11 @@ export const OrdersList = () => {
                 },
                 {
                     field: "organization_id",
+                    operator: "in",
+                    value: []
+                },
+                {
+                    field: "departure",
                     operator: "in",
                     value: []
                 },
@@ -136,12 +142,37 @@ export const OrdersList = () => {
                         return (organization?.title || "-")
                     }}
                 />
-                "order_create_date": "Оrder date",
+
                 <Table.Column dataIndex={["order_create_date"]} title={translate("line_orders.fields.order_create_date")}//"Дата заказа"
                     sorter
                     defaultSortOrder={getDefaultSortOrder("order_create_date", sorters)}
                     render={(value: any) => <DateField value={value} format=" DD.MM.YYYY" />} />
+
                 <Table.Column dataIndex="costumer_contact_phone" title={translate("line_orders.fields.phone")} />
+
+                <Table.Column dataIndex="departure" title={translate("line_orders.fields.departure.title")}
+                    key={"departure"}
+                    defaultFilteredValue={getDefaultFilter("departure", filters, "in")}
+                    filterDropdown={(props) => (
+                        <FilterDropdown {...props}>
+                            <Select
+                                style={{ width: "150px" }}
+                                allowClear
+                                mode="multiple"
+                            //placeholder={t("products.filter.isActive.placeholder")}
+                            >
+                                <Select.Option value="true">
+                                    {translate("line_orders.fields.departure.true")}
+                                </Select.Option>
+                                <Select.Option value="false">
+                                    {/* {t("products.fields.isActive.false")} */}
+                                    {translate("line_orders.fields.departure.false")}
+                                </Select.Option>
+                            </Select>
+                        </FilterDropdown>
+                    )}
+                    render={(value: boolean | null) => <DeptureStatus status={value} />} />
+
                 <Table.Column dataIndex={["is_completed"]} title={translate("line_orders.fields.is_active.title")}
                     key={"is_completed"}
                     sorter
@@ -150,7 +181,7 @@ export const OrdersList = () => {
                     filterDropdown={(props) => (
                         <FilterDropdown {...props}>
                             <Select
-                                style={{ width: "250px" }}
+                                style={{ width: "150px" }}
                                 allowClear
                                 mode="multiple"
                             //placeholder={t("products.filter.isActive.placeholder")}

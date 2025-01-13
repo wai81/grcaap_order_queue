@@ -190,3 +190,4 @@ handler_1c/alembic/versions/*.py
 
 
 
+handler_1c/.env copy

@@ -38,6 +38,9 @@ class LineOrder(Base):
                                 back_populates='line_organizations',
                                 lazy="immediate"
                                 )  # связи таблици
+    departure = Column(Boolean,
+                       default=False,
+                       comment='Выезд специалиста')
     is_completed = Column(Boolean,
                           default=False,
                           comment='Заказ выполнен')

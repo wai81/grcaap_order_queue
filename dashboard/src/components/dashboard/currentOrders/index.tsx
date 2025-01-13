@@ -4,6 +4,7 @@ import { List as AntdList, Skeleton, Tag, Typography } from "antd";
 import { OrderStatus } from "../../order/status";
 import { DateField } from "@refinedev/antd";
 import { TagOutlined } from "@ant-design/icons";
+import { DeptureStatus } from "../../order/departureStatus";
 
 type Props = {
     height?: string;
@@ -69,6 +70,7 @@ export const CurrentOrders = ({ height = "550px" }: Props) => {
                                 <Tag color="orange" icon={<TagOutlined />}>
                                     {item.row_num}
                                 </Tag>
+                                <DeptureStatus status={item.departure} />
                                 <Typography.Text strong>
                                     {item.order_number}
                                 </Typography.Text>

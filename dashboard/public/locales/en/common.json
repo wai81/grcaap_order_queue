@@ -178,6 +178,11 @@
         "order_create_date": "Оrder date",
         "phone": "Phone",
         "created_at": "Created at",
+        "departure": {
+          "title":"Departure",
+          "true": "Yes",
+          "false": "No"
+        },
         "is_active": {
           "title": "Status",  
           "true": "In work",
@@ -196,6 +201,11 @@
         "title": "Title",
         "fullname": "Full name",
         "created_at": "Created at",
+        "departure": {
+          "title":"Departure",
+          "true": "Yes",
+          "false": "No"
+        },        
         "is_active": {
           "title": "Status",  
           "true": "Active",

@@ -158,6 +158,11 @@
       "order_create_date": "Дата заказа",
       "phone": "Телефон",
       "created_at": "Создан",
+      "departure": {
+        "title":"Выезд",
+        "true": "Да",
+        "false": "Нет"
+      },
       "is_active": {
         "title": "Статус",  
         "true": "Выполнен",
@@ -178,6 +183,11 @@
       "order_create_date": "Дата заказа",
       "phone": "Телефон",
       "created_at": "Создан",
+      "departure": {
+        "title":"Выезд",
+        "true": "Да",
+        "false": "Нет"
+      },
       "is_active": {
         "title": "Статус",  
         "true": "Выполнен",

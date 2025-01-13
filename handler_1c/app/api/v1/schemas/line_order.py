@@ -9,6 +9,7 @@ class LineOrderBase(BaseModel):
     order_number: str
     costumer_contact_phone: str
     order_create_date: datetime
+    departure: Optional[bool] # Это поле может быть True, False или None 
     is_completed: bool
 
 
@@ -35,6 +36,7 @@ class LineOrderResponse(BaseModel):
     order_create_date: datetime
     costumer_contact_phone: str
     organization_id: int
+    departure: Optional[bool] # Это поле может быть True, False или None 
     is_completed: bool
     created_at: datetime
     row_num: int

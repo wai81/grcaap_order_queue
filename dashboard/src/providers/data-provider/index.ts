@@ -65,10 +65,12 @@ export const dataProvider: DataProvider = {
        const { _sort, _order } = getSort;
        params.append("order_by",`${_order}${_sort}`)
     }
+    
     //формируем строку запроса если есть фильтры
     if (filters && filters.length > 0) {
       const getFilter = generateFilter(filters)
       Object.entries(getFilter).forEach(([key, value])=>{
+        console.log(value)
         if (value.length !== 0 && value !== undefined && value !== "" &&   
           !(Array.isArray(value) && value.length === 0) &&  
           !(typeof value === 'object' && Object.keys(value).length === 0)) {

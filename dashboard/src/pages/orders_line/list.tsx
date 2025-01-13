@@ -5,10 +5,12 @@ import { ILineOrder, IOrganization } from "../../interfaces";
 import { PaginationTotal } from "../../components/paginationTotal";
 import { OrderStatus } from "../../components/order/status";
 import { SearchOutlined, TagOutlined, TagsOutlined } from "@ant-design/icons";
-
+import dayjs from "dayjs";
+import { DeptureStatus } from "../../components/order/departureStatus";
 
 export const OrdersLineList = () => {
     const { token } = theme.useToken();
+    const now = dayjs();
     const translate = useTranslate();
     // We'll use pass `tableProps` to the `<Table />` component,
     // This will manage the data, pagination, filters and sorters for us.
@@ -31,7 +33,10 @@ export const OrdersLineList = () => {
                 {
                     field: "order_create_date",
                     operator: "between",
-                    value: [undefined, undefined],
+                    value: [
+                        now.subtract(1, "month").startOf("day").format('YYYY-MM-DD HH:mm:ss'),
+                        now.endOf("day").format(),
+                    ],
                 },
             ],
         },
@@ -166,6 +171,30 @@ export const OrdersLineList = () => {
                     defaultSortOrder={getDefaultSortOrder("order_create_date", sorters)}
                     render={(value: any) => <DateField value={value} format=" DD.MM.YYYY" />} />
                 <Table.Column dataIndex="costumer_contact_phone" title={translate("in_line.fields.phone")} />
+
+                <Table.Column dataIndex="departure" title={translate("in_line.fields.departure.title")}
+                    key={"departure"}
+                    defaultFilteredValue={getDefaultFilter("departure", filters, "in")}
+                    filterDropdown={(props) => (
+                        <FilterDropdown {...props}>
+                            <Select
+                                style={{ width: "170px" }}
+                                allowClear
+                                mode="multiple"
+                            //placeholder={t("products.filter.isActive.placeholder")}
+                            >
+                                <Select.Option value="true">
+                                    {translate("in_line.fields.departure.true")}
+                                </Select.Option>
+                                <Select.Option value="false">
+                                    {/* {t("products.fields.isActive.false")} */}
+                                    {translate("in_line.fields.departure.false")}
+                                </Select.Option>
+                            </Select>
+                        </FilterDropdown>
+                    )}
+                    render={(value: boolean | null) => <DeptureStatus status={value} />} />
+
                 <Table.Column dataIndex={["is_completed"]} title={translate("in_line.fields.is_active.title")}
                     key={"is_completed__in"}
                     render={(value: boolean) => <OrderStatus status={value} />}
