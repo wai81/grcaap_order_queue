@@ -29,6 +29,12 @@ ENV NODE_ENV production
 RUN npm install -g serve
 
 COPY --from=builder /app/refine/dist ./
+# # Add your nginx.conf
+# COPY nginx.conf /etc/nginx/conf.d/default.conf
+# # Expose port
+# EXPOSE 80
+# # Start nginx
+# CMD ["nginx", "-g", "daemon off;"]
 
 USER refine
 
