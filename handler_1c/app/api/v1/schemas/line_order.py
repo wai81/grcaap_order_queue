@@ -7,6 +7,7 @@ from pydantic.types import UUID4
 
 class LineOrderBase(BaseModel):
     order_number: str
+    adress_object: Optional[str]
     costumer_contact_phone: str
     order_create_date: datetime
     departure: Optional[bool] # Это поле может быть True, False или None 
@@ -33,6 +34,7 @@ class LineOrderInDB(LineOrderBase):
 class LineOrderResponse(BaseModel):
     id: UUID4
     order_number: str
+    adress_object: Optional[str]
     order_create_date: datetime
     costumer_contact_phone: str
     organization_id: int

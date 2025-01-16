@@ -17,8 +17,14 @@ class LineOrder(Base):
                 index=True)
     order_number = Column(String(21),
                           nullable=False,
+                          comment='Заказ',
                           index=True
                           )  # номер заказа/договор *обязателен для заполнения
+    adress_object = Column(String(210),
+                          nullable=False,
+                          comment='Адрес объекта',
+                          index=True,
+                          )
     order_create_date = Column(DateTime(timezone=True),
                                default=datetime.utcnow,
                                nullable=False,
