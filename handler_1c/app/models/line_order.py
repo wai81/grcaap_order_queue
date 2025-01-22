@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column, String, Integer, ForeignKey, DateTime, Boolean
+from sqlalchemy import Column, String, Integer, ForeignKey, DateTime, Boolean, Date
 from uuid import uuid4
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
@@ -46,7 +46,14 @@ class LineOrder(Base):
                                 )  # связи таблици
     departure = Column(Boolean,
                        default=False,
+                       index=True,
                        comment='Выезд специалиста')
+    departure_date = Column(Date,
+                       index=True,
+                       comment='Дата выезда')
+    completion_date = Column(Date,
+                       index=True,
+                       comment='Дата выполнения заказа')
     is_completed = Column(Boolean,
                           default=False,
                           comment='Заказ выполнен')
